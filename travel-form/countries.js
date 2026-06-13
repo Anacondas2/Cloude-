@@ -1,0 +1,106 @@
+// Country database with landmark Unsplash photo IDs and facts
+const COUNTRIES = [
+  // ──── EUROPE ────
+  { code: "no", name: "Норвегия",       nameEn: "Norway",        capital: "Осло",         region: "europe",   emoji: "🇳🇴", photo: "1542314831-068cd1dbfeeb", fact: "Страна фьордов, северного сияния и самого высокого уровня жизни в мире" },
+  { code: "hu", name: "Венгрия",        nameEn: "Hungary",       capital: "Будапешт",     region: "europe",   emoji: "🇭🇺", photo: "1549451371-64aa98a6f660", fact: "Будапешт — «Жемчужина Дуная» с термальными купальнями и великолепной архитектурой" },
+  { code: "pt", name: "Португалия",     nameEn: "Portugal",      capital: "Лиссабон",     region: "europe",   emoji: "🇵🇹", photo: "1555881400-74d7acaacd47", fact: "Родина фаду, пастеисов де ната и первооткрывателей эпохи великих географических открытий" },
+  { code: "mt", name: "Мальта",         nameEn: "Malta",         capital: "Валлетта",     region: "europe",   emoji: "🇲🇹", photo: "1531512073830-ba890ca4eba2", fact: "Самый маленький член ЕС с историей длиной 7000 лет и кристально чистым Средиземным морем" },
+  { code: "pl", name: "Польша",         nameEn: "Poland",        capital: "Варшава",      region: "europe",   emoji: "🇵🇱", photo: "1519197924294-4ba991a11128", fact: "Страна с богатой историей, красивым Краковом и знаменитым борщом" },
+  { code: "de", name: "Германия",       nameEn: "Germany",       capital: "Берлин",       region: "europe",   emoji: "🇩🇪", photo: "1467269204594-9661b134dd2b", fact: "Родина Баха, Гёте, автомобилей BMW и замков Баварии" },
+  { code: "at", name: "Австрия",        nameEn: "Austria",       capital: "Вена",         region: "europe",   emoji: "🇦🇹", photo: "1516550135099-88c3e1564e12", fact: "Родина Моцарта и Фрейда — страна классической музыки и венских кофеен" },
+  { code: "sk", name: "Словакия",       nameEn: "Slovakia",      capital: "Братислава",   region: "europe",   emoji: "🇸🇰", photo: "1561016444-14f747499547", fact: "Небольшая страна с огромным количеством замков и нетронутой природой Карпат" },
+  { code: "se", name: "Швеция",         nameEn: "Sweden",        capital: "Стокгольм",    region: "europe",   emoji: "🇸🇪", photo: "1509356843151-3e7d96241e11", fact: "Страна IKEA, ABBA, северного сияния и самого счастливого образа жизни" },
+  { code: "cz", name: "Чехия",          nameEn: "Czech Republic",capital: "Прага",        region: "europe",   emoji: "🇨🇿", photo: "1541849546-216549ae216d", fact: "Прага — город ста шпилей с одним из красивейших исторических центров Европы" },
+  { code: "ch", name: "Швейцария",      nameEn: "Switzerland",   capital: "Берн",         region: "europe",   emoji: "🇨🇭", photo: "1527668752968-14dc70a27c95", fact: "Страна Альп, шоколада, часов и самого чистого воздуха в мире" },
+  { code: "dk", name: "Дания",          nameEn: "Denmark",       capital: "Копенгаген",   region: "europe",   emoji: "🇩🇰", photo: "1513622470522-26c3c8a854bc", fact: "Родина LEGO и самая счастливая страна мира по данным ООН" },
+  { code: "va", name: "Ватикан",        nameEn: "Vatican City",  capital: "Ватикан",      region: "europe",   emoji: "🇻🇦", photo: "1531572753322-ad063cecc140", fact: "Наименьшее государство мира с Сикстинской капеллой и собором Святого Петра" },
+  { code: "be", name: "Бельгия",        nameEn: "Belgium",       capital: "Брюссель",     region: "europe",   emoji: "🇧🇪", photo: "1491557219-ae16-4364-979b-a9dc65200c06", fact: "Мировая столица шоколада, вафель, пива и штаб-квартира НАТО" },
+  { code: "sm", name: "Сан-Марино",     nameEn: "San Marino",    capital: "Сан-Марино",   region: "europe",   emoji: "🇸🇲", photo: "1558618666-fcd25c85cd64", fact: "Старейшая республика мира, расположенная на вершине горы Монте-Титано" },
+  { code: "me", name: "Черногория",     nameEn: "Montenegro",    capital: "Подгорица",    region: "europe",   emoji: "🇲🇪", photo: "1555993539-1732b0258235", fact: "Страна с потрясающими бухтами, горами и девственной природой на берегу Адриатики" },
+  { code: "fr", name: "Франция",        nameEn: "France",        capital: "Париж",        region: "europe",   emoji: "🇫🇷", photo: "1502602114378-c1baf5ae02ad", fact: "Страна Эйфелевой башни, высокой моды, шампанского и кулинарного искусства" },
+  { code: "ie", name: "Ирландия",       nameEn: "Ireland",       capital: "Дублин",       region: "europe",   emoji: "🇮🇪", photo: "1501854140801-50d01698950b", fact: "Изумрудный остров с кельтской культурой, пабами и утёсами Мохер" },
+  { code: "gb", name: "Великобритания", nameEn: "United Kingdom", capital: "Лондон",      region: "europe",   emoji: "🇬🇧", photo: "1513635269975-59663e0ac1ad", fact: "Страна Шекспира, Биг-Бена, Тауэрского моста и Гарри Поттера" },
+  { code: "rs", name: "Сербия",         nameEn: "Serbia",        capital: "Белград",      region: "europe",   emoji: "🇷🇸", photo: "1555629151-5aeabfce7355", fact: "Белград — один из старейших городов Европы с бурной ночной жизнью" },
+  { code: "si", name: "Словения",       nameEn: "Slovenia",      capital: "Любляна",      region: "europe",   emoji: "🇸🇮", photo: "1516912481800-3dac969895f6", fact: "Скрытая жемчужина Европы с озером Блед и фантастическими Альпами" },
+  { code: "ee", name: "Эстония",        nameEn: "Estonia",       capital: "Таллин",       region: "europe",   emoji: "🇪🇪", photo: "1554939437-3f5a74b89d1c", fact: "Цифровая нация с средневековым Таллином и самыми густыми лесами Европы" },
+  { code: "it", name: "Италия",         nameEn: "Italy",         capital: "Рим",          region: "europe",   emoji: "🇮🇹", photo: "1515542622106-078bda697895", fact: "Колизей, Венеция, пицца, паста — страна с тысячелетней историей" },
+  { code: "es", name: "Испания",        nameEn: "Spain",         capital: "Мадрид",       region: "europe",   emoji: "🇪🇸", photo: "1539037116277-4db20889f2d4", fact: "Родина фламенко, Гауди, сиесты и лучших пляжей Средиземноморья" },
+  { code: "is", name: "Исландия",       nameEn: "Iceland",       capital: "Рейкьявик",    region: "europe",   emoji: "🇮🇸", photo: "1531168558-8818c8be4e87", fact: "Страна вулканов, гейзеров, северного сияния и чистейшего воздуха на планете" },
+  { code: "lv", name: "Латвия",         nameEn: "Latvia",        capital: "Рига",         region: "europe",   emoji: "🇱🇻", photo: "1555406174-4a7e23-a3609b", fact: "Рига — столица арт-нуво с красивейшей архитектурой начала XX века" },
+  { code: "fi", name: "Финляндия",      nameEn: "Finland",       capital: "Хельсинки",    region: "europe",   emoji: "🇫🇮", photo: "1538332576228-eb5b4c4de6f5", fact: "Страна тысячи озёр, саун, Санта-Клауса и счастливейших людей в мире" },
+  { code: "gr", name: "Греция",         nameEn: "Greece",        capital: "Афины",        region: "europe",   emoji: "🇬🇷", photo: "1533105079780-92b9be482077", fact: "Колыбель западной цивилизации с Акрополем, Санторини и оливковыми рощами" },
+  { code: "nl", name: "Нидерланды",     nameEn: "Netherlands",   capital: "Амстердам",    region: "europe",   emoji: "🇳🇱", photo: "1534351590666-13e3e96b5902", fact: "Страна тюльпанов, ветряных мельниц, каналов и велосипедов" },
+  { code: "ro", name: "Румыния",        nameEn: "Romania",       capital: "Бухарест",     region: "europe",   emoji: "🇷🇴", photo: "1564072557-19-f5d1-ab6f3", fact: "Трансильвания, замок Дракулы, живописные Карпаты и богатый фольклор" },
+  { code: "hr", name: "Хорватия",       nameEn: "Croatia",       capital: "Загреб",       region: "europe",   emoji: "🇭🇷", photo: "1555990723-7dc7bedc27e3", fact: "Тысяча островов, Плитвицкие озёра и старинный Дубровник на Адриатике" },
+  { code: "bg", name: "Болгария",       nameEn: "Bulgaria",      capital: "София",        region: "europe",   emoji: "🇧🇬", photo: "1549877452-9b7d7f0a832b", fact: "Страна Розовой долины, золотых пляжей и православных монастырей" },
+  { code: "mc", name: "Монако",         nameEn: "Monaco",        capital: "Монако-Вилль", region: "europe",   emoji: "🇲🇨", photo: "1555883005-ce4bf91e2cb7", fact: "Второе по малости государство мира — столица роскоши и Формулы-1" },
+  { code: "lu", name: "Люксембург",     nameEn: "Luxembourg",    capital: "Люксембург",   region: "europe",   emoji: "🇱🇺", photo: "1565006656988-39-f6f9e6e", fact: "Маленькое великое герцогство с самым высоким ВВП на душу населения в мире" },
+  { code: "lt", name: "Литва",          nameEn: "Lithuania",     capital: "Вильнюс",      region: "europe",   emoji: "🇱🇹", photo: "1554940801-04421664d7c7", fact: "Вильнюс — бывшая Северная Иерусалим с удивительным барокко и янтарным побережьем" },
+  { code: "ua", name: "Украина",        nameEn: "Ukraine",       capital: "Киев",         region: "europe",   emoji: "🇺🇦", photo: "1580399581374-19fbcbab3a32", fact: "Крупнейшая страна Европы с Киево-Печерской лаврой и золотыми пшеничными полями" },
+  { code: "tr", name: "Турция",         nameEn: "Turkey",        capital: "Анкара",       region: "europe",   emoji: "🇹🇷", photo: "1641128324972-af3212f0f6bd", fact: "Страна, стоящая на двух континентах: Стамбул, Каппадокия, бирюзовое побережье" },
+  { code: "by", name: "Беларусь",       nameEn: "Belarus",       capital: "Минск",        region: "europe",   emoji: "🇧🇾", photo: "1581628940066-e52cd04e929e", fact: "Страна с нетронутыми пущами, Беловежской пущей и богатой историей" },
+  { code: "rs", name: "Румыния",        nameEn: "Romania",       capital: "Бухарест",     region: "europe",   emoji: "🇷🇴", photo: "1564072557-19f5d1ab6f3a", fact: "Замок Дракулы, Трансильвания и живописные Карпатские горы" },
+
+  // ──── ASIA ────
+  { code: "jp", name: "Япония",         nameEn: "Japan",         capital: "Токио",        region: "asia",     emoji: "🇯🇵", photo: "1528360983277-13d401cdc186", fact: "Страна восходящего солнца — сакура, гора Фудзи, суши и технологии будущего" },
+  { code: "cn", name: "Китай",          nameEn: "China",         capital: "Пекин",        region: "asia",     emoji: "🇨🇳", photo: "1508804185872-d7badad17960", fact: "Великая Китайская стена, терракотовая армия и 5000 лет непрерывной цивилизации" },
+  { code: "th", name: "Таиланд",        nameEn: "Thailand",      capital: "Бангкок",      region: "asia",     emoji: "🇹🇭", photo: "1506665531195-3566af2b4dfa", fact: "Страна улыбок с золотыми храмами, экзотическими пляжами и уличной едой" },
+  { code: "vn", name: "Вьетнам",        nameEn: "Vietnam",       capital: "Ханой",        region: "asia",     emoji: "🇻🇳", photo: "1506905925346-21bda4d32df4", fact: "Бухта Халонг, рисовые террасы и потрясающая кухня — страна-феникс" },
+  { code: "id", name: "Индонезия",      nameEn: "Indonesia",     capital: "Джакарта",     region: "asia",     emoji: "🇮🇩", photo: "1537996194471-e657df975ab4", fact: "17 000 островов: Бали, Борнео, Ява — крупнейший островной архипелаг в мире" },
+  { code: "in", name: "Индия",          nameEn: "India",         capital: "Нью-Дели",     region: "asia",     emoji: "🇮🇳", photo: "1524492412937-b28074a5d7da", fact: "Тадж-Махал, специи, йога — страна контрастов с 1,4 миллиарда историй" },
+  { code: "sg", name: "Сингапур",       nameEn: "Singapore",     capital: "Сингапур",     region: "asia",     emoji: "🇸🇬", photo: "1525625293586-f0aced06b4c7", fact: "Город-сад будущего: Marina Bay Sands, Gardens by the Bay и идеальный порядок" },
+  { code: "ae", name: "ОАЭ",            nameEn: "UAE",           capital: "Абу-Даби",     region: "asia",     emoji: "🇦🇪", photo: "1512453979798-5ea266f8880c", fact: "Дубай — город рекордов: Бурдж-Халифа, острова-пальмы и торговые мегамоллы" },
+  { code: "kr", name: "Южная Корея",    nameEn: "South Korea",   capital: "Сеул",         region: "asia",     emoji: "🇰🇷", photo: "1538669715315-155098f0fb1b", fact: "K-pop, K-drama, технологии Samsung и традиционные дворцы среди небоскрёбов Сеула" },
+  { code: "my", name: "Малайзия",       nameEn: "Malaysia",      capital: "Куала-Лумпур", region: "asia",     emoji: "🇲🇾", photo: "1516054575922-f0b8eeadec1a", fact: "Башни Петронас, многоэтнический плавильный котёл культур и кухонь" },
+  { code: "kh", name: "Камбоджа",       nameEn: "Cambodia",      capital: "Пномпень",     region: "asia",     emoji: "🇰🇭", photo: "1508009603885-50cf7c579365", fact: "Ангкор-Ват — величайший религиозный памятник мира в джунглях Камбоджи" },
+  { code: "np", name: "Непал",          nameEn: "Nepal",         capital: "Катманду",     region: "asia",     emoji: "🇳🇵", photo: "1542359662-94c85df0a87e", fact: "Крыша мира: Эверест, Гималаи, буддийские монастыри и треккинговые маршруты" },
+  { code: "ge", name: "Грузия",         nameEn: "Georgia",       capital: "Тбилиси",      region: "asia",     emoji: "🇬🇪", photo: "1565008576549-57569a49371d", fact: "Страна вина, хачапури, гор Кавказа и гостеприимства на краю Европы и Азии" },
+  { code: "am", name: "Армения",        nameEn: "Armenia",       capital: "Ереван",       region: "asia",     emoji: "🇦🇲", photo: "1583431978-a7-6a7e-8b2d1", fact: "Первая христианская страна мира с горой Арарат и монастырями в скалах" },
+  { code: "il", name: "Израиль",        nameEn: "Israel",        capital: "Иерусалим",    region: "asia",     emoji: "🇮🇱", photo: "1544968503-5b7b6e0f27a5", fact: "Святая земля трёх религий, Мёртвое море и высокотехнологичный стартап-нейшн" },
+  { code: "jo", name: "Иордания",       nameEn: "Jordan",        capital: "Амман",        region: "asia",     emoji: "🇯🇴", photo: "1548786811-dd6e453ccca7", fact: "Петра — город, высеченный в розовых скалах, жемчужина Ближнего Востока" },
+  { code: "lk", name: "Шри-Ланка",      nameEn: "Sri Lanka",     capital: "Коломбо",      region: "asia",     emoji: "🇱🇰", photo: "1547981609-4b6bfe67ca0b", fact: "Жемчужина Индийского океана: чайные плантации, слоны и храм Зуба Будды" },
+  { code: "ph", name: "Филиппины",      nameEn: "Philippines",   capital: "Манила",       region: "asia",     emoji: "🇵🇭", photo: "1518509562399-e927b875b462", fact: "7000 островов с самыми красивыми рисовыми террасами и лазурными лагунами" },
+  { code: "mn", name: "Монголия",       nameEn: "Mongolia",      capital: "Улан-Батор",   region: "asia",     emoji: "🇲🇳", photo: "1503432027286-7b7f1d f4d", fact: "Бескрайние степи, юрты, дикие лошади и наследие Чингисхана" },
+  { code: "uz", name: "Узбекистан",     nameEn: "Uzbekistan",    capital: "Ташкент",      region: "asia",     emoji: "🇺🇿", photo: "1574788000039-c10b3d6c65cc", fact: "Самарканд, Бухара, Хива — жемчужины Великого шёлкового пути" },
+  { code: "az", name: "Азербайджан",    nameEn: "Azerbaijan",    capital: "Баку",         region: "asia",     emoji: "🇦🇿", photo: "1542051841857-5f90071e7989", fact: "Страна огня с горящей горой, модернистским Баку и ковровыми традициями" },
+
+  // ──── AMERICAS ────
+  { code: "us", name: "США",            nameEn: "USA",           capital: "Вашингтон",    region: "americas", emoji: "🇺🇸", photo: "1501594907352-04cda38ebc29", fact: "Свобода, Голливуд, Нью-Йорк, Гранд-Каньон — страна бесчисленных возможностей" },
+  { code: "br", name: "Бразилия",       nameEn: "Brazil",        capital: "Бразилиа",     region: "americas", emoji: "🇧🇷", photo: "1483729600621-1-f5044088f96", fact: "Рио, самба, Амазонка, статуя Христа — крупнейшая страна Южной Америки" },
+  { code: "ar", name: "Аргентина",      nameEn: "Argentina",     capital: "Буэнос-Айрес", region: "americas", emoji: "🇦🇷", photo: "1589909202802-8f4aab542aef", fact: "Родина танго, мяса асадо, Патагонии и лучшего в мире футбола" },
+  { code: "mx", name: "Мексика",        nameEn: "Mexico",        capital: "Мехико",       region: "americas", emoji: "🇲🇽", photo: "1518638150340-f706e86654de", fact: "Ацтеки, текила, тако, Чичен-Ица и бирюзовые воды Карибского моря" },
+  { code: "co", name: "Колумбия",       nameEn: "Colombia",      capital: "Богота",       region: "americas", emoji: "🇨🇴", photo: "1540206395-68808572332f", fact: "Страна вечной весны с Картахеной, кофе и самым биоразнообразным регионом Земли" },
+  { code: "ca", name: "Канада",         nameEn: "Canada",        capital: "Оттава",       region: "americas", emoji: "🇨🇦", photo: "1519604080-8d44df10-f1f1", fact: "Ниагарский водопад, Скалистые горы, Банф и самый дружелюбный народ планеты" },
+  { code: "pe", name: "Перу",           nameEn: "Peru",          capital: "Лима",         region: "americas", emoji: "🇵🇪", photo: "1526392060635-9d6019884377", fact: "Мачу-Пикчу, цивилизация инков, озеро Титикака и невероятная кухня" },
+  { code: "cu", name: "Куба",           nameEn: "Cuba",          capital: "Гавана",       region: "americas", emoji: "🇨🇺", photo: "1501982048774-6bc97e7d5f45", fact: "Гавана — город ретро-автомобилей, сальсы, сигар и колониальных дворцов" },
+  { code: "cl", name: "Чили",           nameEn: "Chile",         capital: "Сантьяго",     region: "americas", emoji: "🇨🇱", photo: "1501698981748-c4f6afa66e82", fact: "Пустыня Атакама, Патагония, остров Пасхи — страна крайностей и контрастов" },
+  { code: "cr", name: "Коста-Рика",     nameEn: "Costa Rica",    capital: "Сан-Хосе",     region: "americas", emoji: "🇨🇷", photo: "1559827291-72ffc6a0ef68", fact: "Страна без армии: джунгли, вулканы, ленивцы и 25% территории — заповедники" },
+  { code: "do", name: "Доминикана",     nameEn: "Dominican Republic", capital: "Санто-Доминго", region: "americas", emoji: "🇩🇴", photo: "1510525009-0-6a52826560e", fact: "Пунта-Кана — белоснежные пляжи, пальмы и вечное карибское лето" },
+
+  // ──── AFRICA ────
+  { code: "eg", name: "Египет",         nameEn: "Egypt",         capital: "Каир",         region: "africa",   emoji: "🇪🇬", photo: "1539768942893-f0b5f4fe90f2", fact: "Пирамиды Гизы, Сфинкс, Нил — 5000 лет истории под африканским солнцем" },
+  { code: "ma", name: "Марокко",        nameEn: "Morocco",       capital: "Рабат",        region: "africa",   emoji: "🇲🇦", photo: "1539020140153-e1b9c08c5a8d", fact: "Марракеш, пустыня Сахара, синий Шефшауэн и бесчисленные пряные рынки" },
+  { code: "za", name: "ЮАР",            nameEn: "South Africa",  capital: "Претория",     region: "africa",   emoji: "🇿🇦", photo: "1572120360610-d4bdb0c1c5a8", fact: "Столовая гора, сафари Крюгера, мыс Доброй Надежды и нация Радуги" },
+  { code: "tz", name: "Танзания",       nameEn: "Tanzania",      capital: "Додома",       region: "africa",   emoji: "🇹🇿", photo: "1516026672322-b-71818a6e2fc", fact: "Килиманджаро, Серенгети, Занзибар — сафари-столица планеты" },
+  { code: "ke", name: "Кения",          nameEn: "Kenya",         capital: "Найроби",      region: "africa",   emoji: "🇰🇪", photo: "1547471080-7cc2caa01849", fact: "Масаи-Мара, великая миграция гну, жирафы и незабываемые закаты саванны" },
+  { code: "et", name: "Эфиопия",        nameEn: "Ethiopia",      capital: "Аддис-Абеба",  region: "africa",   emoji: "🇪🇹", photo: "1580746738099-1d7b5e4a7901", fact: "Колыбель человечества: скальные церкви Лалибэлы и кофе — оба изобретены здесь" },
+  { code: "ng", name: "Нигерия",        nameEn: "Nigeria",       capital: "Абуджа",       region: "africa",   emoji: "🇳🇬", photo: "1569428034239-f9565e32e224", fact: "Нолливуд, Afrobeats и самая населённая страна Африки с невероятной энергетикой" },
+  { code: "gh", name: "Гана",           nameEn: "Ghana",         capital: "Аккра",        region: "africa",   emoji: "🇬🇭", photo: "1545167871-cc5b07be3a07", fact: "Ворота возврата, Аккра и родина какао — страна Pan-African pride" },
+  { code: "mu", name: "Маврикий",       nameEn: "Mauritius",     capital: "Порт-Луи",     region: "africa",   emoji: "🇲🇺", photo: "1544550581-5f7cead7397c", fact: "Остров-рай в Индийском океане с бирюзовыми лагунами и подводным водопадом" },
+  { code: "mg", name: "Мадагаскар",     nameEn: "Madagascar",    capital: "Антананариву",  region: "africa",   emoji: "🇲🇬", photo: "1504215680853-026ed2a45def", fact: "Остров, на 90% уникальная природа: лемуры, баобабы и Avenue du Baobab" },
+
+  // ──── OCEANIA ────
+  { code: "au", name: "Австралия",      nameEn: "Australia",     capital: "Канберра",     region: "oceania",  emoji: "🇦🇺", photo: "1523482580672-768315ea38e0", fact: "Сиднейская опера, Большой Барьерный риф, кенгуру и сёрфинг на рассвете" },
+  { code: "nz", name: "Новая Зеландия", nameEn: "New Zealand",   capital: "Веллингтон",   region: "oceania",  emoji: "🇳🇿", photo: "1469854523086-cc02fe5d8800", fact: "Съёмки Властелина колец, фьорды Милфорд-Саунда и маори — страна хоббитов" },
+  { code: "fj", name: "Фиджи",          nameEn: "Fiji",          capital: "Сува",         region: "oceania",  emoji: "🇫🇯", photo: "1551966775-a4daa62c6ea0", fact: "333 острова с кристальными лагунами — настоящий рай в Тихом океане" },
+  { code: "pg", name: "Папуа — Новая Гвинея", nameEn: "Papua New Guinea", capital: "Порт-Морсби", region: "oceania", emoji: "🇵🇬", photo: "1594818374296-3c5571e6b4cc", fact: "Одно из самых нетронутых мест Земли с 800 языками и первобытными лесами" },
+  { code: "ws", name: "Самоа",          nameEn: "Samoa",         capital: "Апиа",         region: "oceania",  emoji: "🇼🇸", photo: "1516815231560-8f41ec531527", fact: "Острова полинезийской культуры, водопады To Sua и слоновьи пещеры" },
+];
+
+// Deduplicate by code
+const seen = new Set();
+const COUNTRIES_UNIQUE = COUNTRIES.filter(c => {
+  if (seen.has(c.code + c.name)) return false;
+  seen.add(c.code + c.name);
+  return true;
+});

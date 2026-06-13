@@ -1,0 +1,20 @@
+{
+  "name": "world-traveler-server",
+  "version": "1.0.0",
+  "description": "Backend for World Traveler Telegram Mini App",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start":     "node server.js",
+    "dev":       "node --watch server.js",
+    "bot":       "node bot.js",
+    "bot:dev":   "node --watch bot.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "cors":           "^2.8.5",
+    "express":        "^4.18.3",
+    "node-fetch":     "^3.3.2"
+  }
+}
