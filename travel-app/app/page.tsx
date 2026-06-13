@@ -17,6 +17,36 @@ import { SelectedCounter } from "@/components/SelectedCounter";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { TelegramShareButton } from "@/components/TelegramShareButton";
 
+const DRAFT_NAME_KEY = "trewel:draft:name";
+const DRAFT_CODES_KEY = "trewel:draft:selected";
+
+function loadDraft(): { name: string; codes: string[] } {
+  if (typeof window === "undefined") return { name: "", codes: [] };
+  try {
+    return {
+      name: localStorage.getItem(DRAFT_NAME_KEY) || "",
+      codes: JSON.parse(localStorage.getItem(DRAFT_CODES_KEY) || "[]"),
+    };
+  } catch {
+    return { name: "", codes: [] };
+  }
+}
+
+function saveDraftName(n: string) {
+  try { localStorage.setItem(DRAFT_NAME_KEY, n); } catch {}
+}
+
+function saveDraftCodes(codes: string[]) {
+  try { localStorage.setItem(DRAFT_CODES_KEY, JSON.stringify(codes)); } catch {}
+}
+
+function clearDraft() {
+  try {
+    localStorage.removeItem(DRAFT_NAME_KEY);
+    localStorage.removeItem(DRAFT_CODES_KEY);
+  } catch {}
+}
+
 type Step = "landing" | "name" | "select" | "done";
 
 export default function Home() {
@@ -28,9 +58,17 @@ export default function Home() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
+  const [draftCount, setDraftCount] = useState(0);
 
-  // Telegram WebApp init + prefill name
+  // On mount: restore draft + Telegram init
   useEffect(() => {
+    const draft = loadDraft();
+    if (draft.name) setName(draft.name);
+    if (draft.codes.length > 0) {
+      setSelected(new Set(draft.codes));
+      setDraftCount(draft.codes.length);
+    }
+
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {
       tg.ready?.();
@@ -40,10 +78,21 @@ export default function Home() {
         const guess = u.username
           ? `@${u.username}`
           : [u.first_name, u.last_name].filter(Boolean).join(" ");
-        if (guess) setName(guess);
+        // only prefill from Telegram if no draft name exists
+        if (guess && !draft.name) setName(guess);
       }
     }
   }, []);
+
+  // Auto-save name draft whenever it changes
+  useEffect(() => {
+    if (name) saveDraftName(name);
+  }, [name]);
+
+  // Auto-save selected draft whenever it changes
+  useEffect(() => {
+    saveDraftCodes([...selected]);
+  }, [selected]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -87,6 +136,8 @@ export default function Home() {
       (window as any).Telegram?.WebApp?.HapticFeedback?.notificationOccurred?.(
         "success"
       );
+      clearDraft();
+      setDraftCount(0);
       setConfirmOpen(false);
       setStep("done");
     } catch {
@@ -108,7 +159,10 @@ export default function Home() {
             exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.4 }}
           >
-            <LandingHero onStart={() => setStep("name")} />
+            <LandingHero
+              onStart={() => setStep("name")}
+              draftCount={draftCount}
+            />
           </motion.div>
         )}
 
@@ -248,7 +302,9 @@ function SuccessScreen({
         Список опубликован!
       </h2>
       <p className="mt-2 max-w-xs text-[15px] text-cream/60">
-        {name}, ты отметил {selected.length} стран. Теперь их видит вся группа.
+        {name}, ты отметил {selected.length}{" "}
+        {selected.length === 1 ? "страну" : selected.length < 5 ? "страны" : "стран"}.
+        Теперь их видит вся группа.
       </p>
 
       <div className="mt-6 flex max-w-sm flex-wrap justify-center gap-1.5">

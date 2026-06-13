@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 interface Props {
   onStart: () => void;
+  draftCount?: number;
 }
 
 const FLOATERS = [
@@ -16,7 +17,8 @@ const FLOATERS = [
   { e: "🏝️", x: "30%", y: "78%", d: 0.2, s: 0.85 },
 ];
 
-export function LandingHero({ onStart }: Props) {
+export function LandingHero({ onStart, draftCount = 0 }: Props) {
+  const hasDraft = draftCount > 0;
   return (
     <div className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 text-center">
       {/* Floating spatial landmarks */}
@@ -68,13 +70,24 @@ export function LandingHero({ onStart }: Props) {
             whileTap={{ scale: 0.95 }}
             className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald2-400 to-lime2-400 px-8 py-4 text-base font-bold text-forest-950 shadow-[0_16px_40px_-10px_rgba(52,224,140,0.7)]"
           >
-            Начать выбор
-            <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
-            >
-              →
-            </motion.span>
+            {hasDraft ? (
+              <>
+                ↩ Продолжить выбор
+                <span className="rounded-full bg-forest-950/20 px-2 py-0.5 text-[12px] font-bold">
+                  {draftCount}
+                </span>
+              </>
+            ) : (
+              <>
+                Начать выбор
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
+              </>
+            )}
           </motion.button>
 
           <Link
@@ -86,7 +99,9 @@ export function LandingHero({ onStart }: Props) {
         </div>
 
         <p className="mt-8 text-xs text-cream/35">
-          Без регистрации · Видно всей группе · 195+ стран
+          {hasDraft
+            ? "Черновик сохранён · Без регистрации · 195+ стран"
+            : "Без регистрации · Видно всей группе · 195+ стран"}
         </p>
       </motion.div>
     </div>
