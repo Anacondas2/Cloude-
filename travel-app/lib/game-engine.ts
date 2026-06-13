@@ -1,6 +1,8 @@
 import { COUNTRIES } from "./countries";
 import { CAPITALS } from "./capitals-data";
 
+// ── Core types ──────────────────────────────────────────────────────────────
+
 export interface GameCountry {
   code: string;
   nameRu: string;
@@ -9,12 +11,18 @@ export interface GameCountry {
   region: string;
   capitalRu: string;
   capitalEn: string;
-  alt: string[];
 }
 
+/** Question for the capitals game — 4 capital-name choices */
+export interface CapitalQuestion {
+  country: GameCountry;
+  choices: string[]; // capitalRu values (shuffled, one is correct)
+}
+
+/** Question for the flags game — 4 country choices */
 export interface FlagQuestion {
   country: GameCountry;
-  choices: GameCountry[]; // 4 options, shuffled, includes correct
+  choices: GameCountry[]; // shuffled, one is correct
 }
 
 export type GameMode = "quick" | "challenge" | "full";
@@ -26,6 +34,9 @@ export type GameRegion =
   | "north_america"
   | "south_america"
   | "oceania";
+export type GameColor = "green" | "blue";
+
+// ── Labels ───────────────────────────────────────────────────────────────────
 
 export const REGION_LABELS: Record<GameRegion, string> = {
   all: "Весь мир",
@@ -37,28 +48,51 @@ export const REGION_LABELS: Record<GameRegion, string> = {
   oceania: "Океания",
 };
 
-export const MODE_LABELS: Record<GameMode, string> = {
-  quick: "Быстрая · 10",
-  challenge: "Испытание · 25",
-  full: "Весь мир",
+export const MODE_CONFIG: Record<GameMode, { label: string; count: number | null }> = {
+  quick:     { label: "Быстрая · 10",  count: 10   },
+  challenge: { label: "Испытание · 25", count: 25   },
+  full:      { label: "Весь мир",       count: null },
 };
 
-// Build game-ready country list (country data + capitals joined)
+// ── Dataset ───────────────────────────────────────────────────────────────────
+
 export const ALL_GAME_COUNTRIES: GameCountry[] = COUNTRIES.filter(
   (c) => CAPITALS[c.code]
-).map((c) => {
-  const cap = CAPITALS[c.code];
-  return {
-    code: c.code,
-    nameRu: c.nameRu,
-    nameEn: c.nameEn,
-    flag: c.flag,
-    region: c.region,
-    capitalRu: cap.capitalRu,
-    capitalEn: cap.capitalEn,
-    alt: cap.alt ?? [],
-  };
-});
+).map((c) => ({
+  code: c.code,
+  nameRu: c.nameRu,
+  nameEn: c.nameEn,
+  flag: c.flag,
+  region: c.region,
+  capitalRu: CAPITALS[c.code].capitalRu,
+  capitalEn: CAPITALS[c.code].capitalEn,
+}));
+
+// ── Dataset validation ────────────────────────────────────────────────────────
+
+export interface ValidationResult {
+  count: number;
+  valid: boolean;
+  issues: string[];
+}
+
+export function validateDataset(): ValidationResult {
+  const seen = new Set<string>();
+  const issues: string[] = [];
+
+  for (const c of ALL_GAME_COUNTRIES) {
+    if (seen.has(c.code)) issues.push(`Duplicate: ${c.code}`);
+    seen.add(c.code);
+    if (!c.capitalRu)  issues.push(`No capitalRu: ${c.code}`);
+    if (!c.capitalEn)  issues.push(`No capitalEn: ${c.code}`);
+    if (!c.flag)       issues.push(`No flag: ${c.code}`);
+    if (!c.nameRu)     issues.push(`No nameRu: ${c.code}`);
+  }
+
+  return { count: ALL_GAME_COUNTRIES.length, valid: issues.length === 0, issues };
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
 
 export function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -75,90 +109,140 @@ function getPool(region: GameRegion): GameCountry[] {
     : ALL_GAME_COUNTRIES.filter((c) => c.region === region);
 }
 
-export function buildCapitalsSession(
-  mode: GameMode,
-  region: GameRegion
-): GameCountry[] {
-  const shuffled = shuffle(getPool(region));
-  if (mode === "quick") return shuffled.slice(0, 10);
-  if (mode === "challenge") return shuffled.slice(0, 25);
+function getQuestionList(mode: GameMode, pool: GameCountry[]): GameCountry[] {
+  const shuffled = shuffle(pool);
+  if (mode === "quick")     return shuffled.slice(0, Math.min(10, shuffled.length));
+  if (mode === "challenge") return shuffled.slice(0, Math.min(25, shuffled.length));
   return shuffled;
 }
 
-export function buildFlagSession(
-  mode: GameMode,
-  region: GameRegion
-): FlagQuestion[] {
+/**
+ * Smart wrong answer selection:
+ * Prefer same region, fall back to other regions.
+ * Ensures no duplicates and correct answer is excluded.
+ */
+function getWrongCountries(
+  correct: GameCountry,
+  pool: GameCountry[],
+  excludeCodes: Set<string>,
+  n: number
+): GameCountry[] {
+  const excl = new Set([...excludeCodes, correct.code]);
+  const sameRegion = shuffle(pool.filter((c) => !excl.has(c.code) && c.region === correct.region));
+  const otherRegion = shuffle(pool.filter((c) => !excl.has(c.code) && c.region !== correct.region));
+  return [...sameRegion, ...otherRegion].slice(0, n);
+}
+
+// For capitals: also ensure no two choices share the same capital name
+function getWrongCapitalCountries(correct: GameCountry, n: number): GameCountry[] {
+  const excl = new Set([correct.code]);
+  const usedCapitals = new Set([correct.capitalRu]);
+
+  const sameRegion = shuffle(
+    ALL_GAME_COUNTRIES.filter(
+      (c) => !excl.has(c.code) && c.region === correct.region && !usedCapitals.has(c.capitalRu)
+    )
+  );
+  const otherRegion = shuffle(
+    ALL_GAME_COUNTRIES.filter(
+      (c) => !excl.has(c.code) && c.region !== correct.region && !usedCapitals.has(c.capitalRu)
+    )
+  );
+
+  const result: GameCountry[] = [];
+  for (const c of [...sameRegion, ...otherRegion]) {
+    if (result.length >= n) break;
+    if (!usedCapitals.has(c.capitalRu)) {
+      result.push(c);
+      usedCapitals.add(c.capitalRu);
+    }
+  }
+  return result;
+}
+
+// ── Session builders ──────────────────────────────────────────────────────────
+
+export function buildCapitalsSession(mode: GameMode, region: GameRegion): CapitalQuestion[] {
   const pool = getPool(region);
-  const shuffled = shuffle(pool);
-  const questions =
-    mode === "quick"
-      ? shuffled.slice(0, 10)
-      : mode === "challenge"
-      ? shuffled.slice(0, 25)
-      : shuffled;
+  const questions = getQuestionList(mode, pool);
 
-  return questions.map((country) => ({
-    country,
-    choices: makeFlagChoices(country, pool),
-  }));
+  return questions.map((country) => {
+    const wrongs = getWrongCapitalCountries(country, 3);
+    const choices = shuffle([country.capitalRu, ...wrongs.map((c) => c.capitalRu)]);
+    return { country, choices };
+  });
 }
 
-function makeFlagChoices(correct: GameCountry, pool: GameCountry[]): GameCountry[] {
-  const wrong = shuffle(pool.filter((c) => c.code !== correct.code)).slice(0, 3);
-  // If pool too small, fill from all countries
-  const extra =
-    wrong.length < 3
-      ? shuffle(
-          ALL_GAME_COUNTRIES.filter(
-            (c) => c.code !== correct.code && !wrong.find((w) => w.code === c.code)
-          )
-        ).slice(0, 3 - wrong.length)
-      : [];
-  return shuffle([correct, ...wrong, ...extra]);
+export function buildFlagSession(mode: GameMode, region: GameRegion): FlagQuestion[] {
+  const pool = getPool(region);
+  const questions = getQuestionList(mode, pool);
+
+  return questions.map((country) => {
+    const wrongs = getWrongCountries(country, ALL_GAME_COUNTRIES, new Set(), 3);
+    const choices = shuffle([country, ...wrongs]);
+    return { country, choices };
+  });
 }
 
-function norm(s: string): string {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/ё/g, "е")
-    .replace(/[–—]/g, "-")
-    .replace(/\s+/g, " ");
+// ── Result messages ───────────────────────────────────────────────────────────
+
+export interface ResultMessage {
+  title: string;
+  emoji: string;
+  sub: string;
 }
 
-export function checkCapital(answer: string, country: GameCountry): boolean {
-  if (!answer.trim()) return false;
-  const n = norm(answer);
-  if (n === norm(country.capitalRu)) return true;
-  if (n === norm(country.capitalEn)) return true;
-  return country.alt.some((a) => n === norm(a));
+export function getResultMessage(acc: number): ResultMessage {
+  if (acc >= 90) return { title: "Легенда географии",          emoji: "🌟", sub: "Потрясающий результат!" };
+  if (acc >= 70) return { title: "Очень сильный результат",    emoji: "💪", sub: "Ты хорошо знаешь мир!" };
+  if (acc >= 50) return { title: "Хорошо, но есть куда расти", emoji: "📚", sub: "Немного практики — и будет отлично!" };
+  return            { title: "Нужно потренироваться",          emoji: "🗺️", sub: "Попробуй ещё раз, у тебя получится!" };
 }
 
-export function accuracy(score: number, total: number): number {
+export function calcAccuracy(score: number, total: number): number {
   return total === 0 ? 0 : Math.round((score / total) * 100);
 }
 
-export function pluralStran(n: number): string {
-  if (n % 10 === 1 && n % 100 !== 11) return "страна";
-  if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) return "страны";
-  return "стран";
+// ── Best score ────────────────────────────────────────────────────────────────
+
+export interface BestScore {
+  score: number;
+  accuracy: number;
+  streak: number;
+  total: number;
+  mode: string;
 }
 
-const LS_PREFIX = "trewel:game:best:";
+const LS_PREFIX = "trewel:game:v2:";
 
-export function getBest(key: string): number {
+const EMPTY_BEST: BestScore = { score: 0, accuracy: 0, streak: 0, total: 0, mode: "" };
+
+export function loadBest(key: string): BestScore {
   try {
-    return parseInt(localStorage.getItem(LS_PREFIX + key) || "0", 10) || 0;
+    const raw = localStorage.getItem(LS_PREFIX + key);
+    return raw ? (JSON.parse(raw) as BestScore) : { ...EMPTY_BEST };
   } catch {
-    return 0;
+    return { ...EMPTY_BEST };
   }
 }
 
-export function saveBest(key: string, score: number): void {
+export function saveBest(key: string, data: BestScore): boolean {
   try {
-    if (score > getBest(key)) {
-      localStorage.setItem(LS_PREFIX + key, String(score));
+    const cur = loadBest(key);
+    if (data.accuracy >= cur.accuracy) {
+      localStorage.setItem(LS_PREFIX + key, JSON.stringify(data));
+      return true;
     }
-  } catch {}
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export function makeBestKey(
+  type: "capitals" | "flags",
+  mode: GameMode,
+  region: GameRegion
+): string {
+  return `${type}:${mode}:${region}`;
 }
