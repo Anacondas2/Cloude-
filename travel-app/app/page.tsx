@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { COUNTRIES } from "@/lib/countries";
 import type { Country, RegionKey } from "@/lib/types";
-import { createSubmission } from "@/lib/supabase";
+import { createSubmission } from "@/lib/api";
 
 import { LandingHero } from "@/components/LandingHero";
 import { UserNameStep } from "@/components/UserNameStep";

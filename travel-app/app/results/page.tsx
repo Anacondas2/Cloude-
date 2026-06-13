@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import { fetchSubmissions } from "@/lib/supabase";
+import { fetchSubmissions } from "@/lib/api";
 import type { Submission } from "@/lib/types";
 import {
   popularCountries,
