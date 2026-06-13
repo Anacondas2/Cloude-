@@ -10,7 +10,7 @@ const GAMES = [
     icon: "🏛️",
     title: "Угадай столицу",
     desc: "Введи столицу страны",
-    sub: "Текстовый ввод · принимается RU и EN",
+    sub: "4 варианта ответа · RU и EN названия",
     gradient: "from-emerald2-400 to-lime2-400",
     shadow: "shadow-[0_12px_32px_-8px_rgba(52,224,140,0.5)]",
   },
@@ -22,6 +22,15 @@ const GAMES = [
     sub: "4 варианта ответа · быстрый клик",
     gradient: "from-blue-400 to-violet-500",
     shadow: "shadow-[0_12px_32px_-8px_rgba(96,165,250,0.5)]",
+  },
+  {
+    href: "/games/match",
+    icon: "🔀",
+    title: "4 флага в ряд",
+    desc: "Собери 4 одинаковых флага в ряд",
+    sub: "Пазл · 60 секунд · 3 комбинации",
+    gradient: "from-amber-400 to-orange-500",
+    shadow: "shadow-[0_12px_32px_-8px_rgba(251,191,36,0.5)]",
   },
 ];
 
