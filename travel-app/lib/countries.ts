@@ -1,0 +1,111 @@
+import type { Country } from "./types";
+
+// 90+ countries with full visual identity.
+// accent = [from, to] gradient. motif drives the selection micro-animation.
+export const COUNTRIES: Country[] = [
+  // ─────────── EUROPE ───────────
+  { code: "de", nameRu: "Германия", nameEn: "Germany", flag: "🇩🇪", region: "europe", symbol: "🏛️", landmark: "Бранденбургские ворота, Чёрный лес", accent: ["#1f2937", "#b91c1c"], motif: "gate" },
+  { code: "fr", nameRu: "Франция", nameEn: "France", flag: "🇫🇷", region: "europe", symbol: "🗼", landmark: "Эйфелева башня, Лазурный берег", accent: ["#1e3a8a", "#9333ea"], motif: "tower" },
+  { code: "it", nameRu: "Италия", nameEn: "Italy", flag: "🇮🇹", region: "europe", symbol: "🏟️", landmark: "Колизей, Венеция, Тоскана", accent: ["#15803d", "#b91c1c"], motif: "arena" },
+  { code: "es", nameRu: "Испания", nameEn: "Spain", flag: "🇪🇸", region: "europe", symbol: "💃", landmark: "Саграда Фамилия, фламенко", accent: ["#b91c1c", "#f59e0b"], motif: "flame" },
+  { code: "pt", nameRu: "Португалия", nameEn: "Portugal", flag: "🇵🇹", region: "europe", symbol: "⛵", landmark: "Лиссабон, трамваи, океан", accent: ["#065f46", "#dc2626"], motif: "wave" },
+  { code: "nl", nameRu: "Нидерланды", nameEn: "Netherlands", flag: "🇳🇱", region: "europe", symbol: "🌷", landmark: "Каналы Амстердама, тюльпаны", accent: ["#ea580c", "#1d4ed8"], motif: "tulip" },
+  { code: "be", nameRu: "Бельгия", nameEn: "Belgium", flag: "🇧🇪", region: "europe", symbol: "🍫", landmark: "Брюссель, шоколад, вафли", accent: ["#1f2937", "#eab308"], motif: "spark" },
+  { code: "at", nameRu: "Австрия", nameEn: "Austria", flag: "🇦🇹", region: "europe", symbol: "🎻", landmark: "Вена, Альпы, музыка", accent: ["#b91c1c", "#f8fafc"], motif: "note" },
+  { code: "ch", nameRu: "Швейцария", nameEn: "Switzerland", flag: "🇨🇭", region: "europe", symbol: "🏔️", landmark: "Альпы, Маттерхорн, озёра", accent: ["#dc2626", "#e2e8f0"], motif: "peak" },
+  { code: "se", nameRu: "Швеция", nameEn: "Sweden", flag: "🇸🇪", region: "europe", symbol: "🌌", landmark: "Стокгольм, северное сияние", accent: ["#1d4ed8", "#22d3ee"], motif: "aurora" },
+  { code: "no", nameRu: "Норвегия", nameEn: "Norway", flag: "🇳🇴", region: "europe", symbol: "⛰️", landmark: "Фьорды, северное сияние", accent: ["#1e3a8a", "#14b8a6"], motif: "fjord" },
+  { code: "dk", nameRu: "Дания", nameEn: "Denmark", flag: "🇩🇰", region: "europe", symbol: "🧜", landmark: "Копенгаген, Нюхавн", accent: ["#b91c1c", "#fb7185"], motif: "spark" },
+  { code: "fi", nameRu: "Финляндия", nameEn: "Finland", flag: "🇫🇮", region: "europe", symbol: "❄️", landmark: "Тысяча озёр, сауна, Лапландия", accent: ["#0ea5e9", "#f1f5f9"], motif: "snow" },
+  { code: "pl", nameRu: "Польша", nameEn: "Poland", flag: "🇵🇱", region: "europe", symbol: "🏰", landmark: "Краков, Варшава", accent: ["#dc2626", "#f8fafc"], motif: "castle" },
+  { code: "cz", nameRu: "Чехия", nameEn: "Czech Republic", flag: "🇨🇿", region: "europe", symbol: "🍺", landmark: "Прага, Карлов мост", accent: ["#1d4ed8", "#dc2626"], motif: "bridge" },
+  { code: "ua", nameRu: "Украина", nameEn: "Ukraine", flag: "🇺🇦", region: "europe", symbol: "🌻", landmark: "Киев, пшеничные поля", accent: ["#0057b7", "#ffd700"], motif: "wheat" },
+  { code: "ro", nameRu: "Румыния", nameEn: "Romania", flag: "🇷🇴", region: "europe", symbol: "🏰", landmark: "Замок Бран, Карпаты", accent: ["#1e3a8a", "#7c2d12"], motif: "castle" },
+  { code: "gr", nameRu: "Греция", nameEn: "Greece", flag: "🇬🇷", region: "europe", symbol: "🏛️", landmark: "Акрополь, Санторини", accent: ["#1d4ed8", "#e0f2fe"], motif: "column" },
+  { code: "tr", nameRu: "Турция", nameEn: "Turkey", flag: "🇹🇷", region: "europe", symbol: "🕌", landmark: "Стамбул, Каппадокия", accent: ["#b91c1c", "#f59e0b"], motif: "balloon" },
+  { code: "gb", nameRu: "Великобритания", nameEn: "United Kingdom", flag: "🇬🇧", region: "europe", symbol: "🎡", landmark: "Биг-Бен, Лондонский глаз", accent: ["#1e3a8a", "#dc2626"], motif: "clock" },
+  { code: "ie", nameRu: "Ирландия", nameEn: "Ireland", flag: "🇮🇪", region: "europe", symbol: "🍀", landmark: "Изумрудный остров, утёсы", accent: ["#15803d", "#f59e0b"], motif: "clover" },
+  { code: "is", nameRu: "Исландия", nameEn: "Iceland", flag: "🇮🇸", region: "europe", symbol: "🌋", landmark: "Гейзеры, вулканы, сияние", accent: ["#0f766e", "#a5f3fc"], motif: "aurora" },
+  { code: "hu", nameRu: "Венгрия", nameEn: "Hungary", flag: "🇭🇺", region: "europe", symbol: "🌉", landmark: "Будапешт, купальни", accent: ["#dc2626", "#15803d"], motif: "bridge" },
+  { code: "hr", nameRu: "Хорватия", nameEn: "Croatia", flag: "🇭🇷", region: "europe", symbol: "🏖️", landmark: "Дубровник, Адриатика", accent: ["#1d4ed8", "#dc2626"], motif: "wave" },
+  { code: "rs", nameRu: "Сербия", nameEn: "Serbia", flag: "🇷🇸", region: "europe", symbol: "🏰", landmark: "Белград, Дунай", accent: ["#1e3a8a", "#b91c1c"], motif: "castle" },
+  { code: "si", nameRu: "Словения", nameEn: "Slovenia", flag: "🇸🇮", region: "europe", symbol: "🏞️", landmark: "Озеро Блед, Альпы", accent: ["#0f766e", "#38bdf8"], motif: "peak" },
+  { code: "sk", nameRu: "Словакия", nameEn: "Slovakia", flag: "🇸🇰", region: "europe", symbol: "⛰️", landmark: "Татры, Братислава", accent: ["#1d4ed8", "#dc2626"], motif: "peak" },
+  { code: "me", nameRu: "Черногория", nameEn: "Montenegro", flag: "🇲🇪", region: "europe", symbol: "⛵", landmark: "Котор, Адриатика", accent: ["#7c2d12", "#dc2626"], motif: "wave" },
+  { code: "mt", nameRu: "Мальта", nameEn: "Malta", flag: "🇲🇹", region: "europe", symbol: "🏖️", landmark: "Валлетта, лазурное море", accent: ["#dc2626", "#f8fafc"], motif: "wave" },
+  { code: "ee", nameRu: "Эстония", nameEn: "Estonia", flag: "🇪🇪", region: "europe", symbol: "🏰", landmark: "Таллин, старый город", accent: ["#0ea5e9", "#1f2937"], motif: "castle" },
+  { code: "lv", nameRu: "Латвия", nameEn: "Latvia", flag: "🇱🇻", region: "europe", symbol: "🌲", landmark: "Рига, ар-нуво", accent: ["#7f1d1d", "#dc2626"], motif: "spark" },
+  { code: "lt", nameRu: "Литва", nameEn: "Lithuania", flag: "🇱🇹", region: "europe", symbol: "🌟", landmark: "Вильнюс, янтарь", accent: ["#eab308", "#15803d"], motif: "spark" },
+
+  // ─────────── ASIA ───────────
+  { code: "jp", nameRu: "Япония", nameEn: "Japan", flag: "🇯🇵", region: "asia", symbol: "🗻", landmark: "Фудзи, Токио, сакура", accent: ["#be123c", "#fda4af"], motif: "sakura" },
+  { code: "kr", nameRu: "Южная Корея", nameEn: "South Korea", flag: "🇰🇷", region: "asia", symbol: "🏯", landmark: "Сеул, дворцы, K-pop", accent: ["#1d4ed8", "#dc2626"], motif: "spark" },
+  { code: "cn", nameRu: "Китай", nameEn: "China", flag: "🇨🇳", region: "asia", symbol: "🏯", landmark: "Великая стена, Пекин", accent: ["#b91c1c", "#f59e0b"], motif: "wall" },
+  { code: "th", nameRu: "Таиланд", nameEn: "Thailand", flag: "🇹🇭", region: "asia", symbol: "🛕", landmark: "Бангкок, храмы, пляжи", accent: ["#0e7490", "#f59e0b"], motif: "temple" },
+  { code: "vn", nameRu: "Вьетнам", nameEn: "Vietnam", flag: "🇻🇳", region: "asia", symbol: "⛩️", landmark: "Халонг, рисовые террасы", accent: ["#b91c1c", "#eab308"], motif: "wave" },
+  { code: "id", nameRu: "Индонезия", nameEn: "Indonesia", flag: "🇮🇩", region: "asia", symbol: "🌴", landmark: "Бали, вулканы, рисовые поля", accent: ["#dc2626", "#0d9488"], motif: "leaf" },
+  { code: "in", nameRu: "Индия", nameEn: "India", flag: "🇮🇳", region: "asia", symbol: "🕌", landmark: "Тадж-Махал, специи", accent: ["#ea580c", "#15803d"], motif: "temple" },
+  { code: "ae", nameRu: "ОАЭ", nameEn: "UAE", flag: "🇦🇪", region: "asia", symbol: "🏙️", landmark: "Дубай, Бурдж-Халифа", accent: ["#854d0e", "#fde68a"], motif: "tower" },
+  { code: "sg", nameRu: "Сингапур", nameEn: "Singapore", flag: "🇸🇬", region: "asia", symbol: "🌃", landmark: "Marina Bay, сады будущего", accent: ["#0f766e", "#22d3ee"], motif: "tower" },
+  { code: "my", nameRu: "Малайзия", nameEn: "Malaysia", flag: "🇲🇾", region: "asia", symbol: "🌆", landmark: "Башни Петронас, Куала-Лумпур", accent: ["#1e3a8a", "#0d9488"], motif: "tower" },
+  { code: "ph", nameRu: "Филиппины", nameEn: "Philippines", flag: "🇵🇭", region: "asia", symbol: "🏝️", landmark: "7000 островов, лагуны", accent: ["#1d4ed8", "#22d3ee"], motif: "wave" },
+  { code: "lk", nameRu: "Шри-Ланка", nameEn: "Sri Lanka", flag: "🇱🇰", region: "asia", symbol: "🐘", landmark: "Чайные плантации, храмы", accent: ["#854d0e", "#15803d"], motif: "leaf" },
+  { code: "np", nameRu: "Непал", nameEn: "Nepal", flag: "🇳🇵", region: "asia", symbol: "🏔️", landmark: "Эверест, Гималаи", accent: ["#7c2d12", "#e0f2fe"], motif: "peak" },
+  { code: "ge", nameRu: "Грузия", nameEn: "Georgia", flag: "🇬🇪", region: "asia", symbol: "🍇", landmark: "Тбилиси, Кавказ, вино", accent: ["#b91c1c", "#0f766e"], motif: "peak" },
+  { code: "am", nameRu: "Армения", nameEn: "Armenia", flag: "🇦🇲", region: "asia", symbol: "⛰️", landmark: "Арарат, монастыри", accent: ["#b91c1c", "#1d4ed8"], motif: "peak" },
+  { code: "az", nameRu: "Азербайджан", nameEn: "Azerbaijan", flag: "🇦🇿", region: "asia", symbol: "🔥", landmark: "Баку, огненные башни", accent: ["#0d9488", "#f59e0b"], motif: "flame" },
+  { code: "il", nameRu: "Израиль", nameEn: "Israel", flag: "🇮🇱", region: "asia", symbol: "🕍", landmark: "Иерусалим, Мёртвое море", accent: ["#1d4ed8", "#e0f2fe"], motif: "temple" },
+  { code: "jo", nameRu: "Иордания", nameEn: "Jordan", flag: "🇯🇴", region: "asia", symbol: "🏜️", landmark: "Петра, Вади-Рам", accent: ["#9a3412", "#fbbf24"], motif: "sand" },
+  { code: "uz", nameRu: "Узбекистан", nameEn: "Uzbekistan", flag: "🇺🇿", region: "asia", symbol: "🕌", landmark: "Самарканд, Шёлковый путь", accent: ["#0e7490", "#f59e0b"], motif: "temple" },
+  { code: "kz", nameRu: "Казахстан", nameEn: "Kazakhstan", flag: "🇰🇿", region: "asia", symbol: "🏙️", landmark: "Астана, степи", accent: ["#0ea5e9", "#fde047"], motif: "tower" },
+  { code: "mn", nameRu: "Монголия", nameEn: "Mongolia", flag: "🇲🇳", region: "asia", symbol: "🐎", landmark: "Степи, юрты, Чингисхан", accent: ["#b91c1c", "#0ea5e9"], motif: "sand" },
+  { code: "kh", nameRu: "Камбоджа", nameEn: "Cambodia", flag: "🇰🇭", region: "asia", symbol: "🛕", landmark: "Ангкор-Ват, джунгли", accent: ["#1e3a8a", "#b91c1c"], motif: "temple" },
+  { code: "mv", nameRu: "Мальдивы", nameEn: "Maldives", flag: "🇲🇻", region: "asia", symbol: "🏝️", landmark: "Бирюзовые лагуны, виллы", accent: ["#0891b2", "#5eead4"], motif: "wave" },
+
+  // ─────────── NORTH AMERICA ───────────
+  { code: "us", nameRu: "США", nameEn: "USA", flag: "🇺🇸", region: "north_america", symbol: "🗽", landmark: "Статуя Свободы, Нью-Йорк", accent: ["#1e3a8a", "#dc2626"], motif: "liberty" },
+  { code: "ca", nameRu: "Канада", nameEn: "Canada", flag: "🇨🇦", region: "north_america", symbol: "🍁", landmark: "Ниагара, Скалистые горы", accent: ["#b91c1c", "#f8fafc"], motif: "leaf" },
+  { code: "mx", nameRu: "Мексика", nameEn: "Mexico", flag: "🇲🇽", region: "north_america", symbol: "🌵", landmark: "Чичен-Ица, Канкун", accent: ["#15803d", "#dc2626"], motif: "temple" },
+  { code: "cu", nameRu: "Куба", nameEn: "Cuba", flag: "🇨🇺", region: "north_america", symbol: "🚗", landmark: "Гавана, ретро-авто", accent: ["#1d4ed8", "#dc2626"], motif: "spark" },
+  { code: "cr", nameRu: "Коста-Рика", nameEn: "Costa Rica", flag: "🇨🇷", region: "north_america", symbol: "🦥", landmark: "Джунгли, вулканы, ленивцы", accent: ["#15803d", "#0ea5e9"], motif: "leaf" },
+  { code: "pa", nameRu: "Панама", nameEn: "Panama", flag: "🇵🇦", region: "north_america", symbol: "🚢", landmark: "Панамский канал", accent: ["#1e3a8a", "#dc2626"], motif: "wave" },
+  { code: "do", nameRu: "Доминикана", nameEn: "Dominican Republic", flag: "🇩🇴", region: "north_america", symbol: "🌴", landmark: "Пунта-Кана, пляжи", accent: ["#1d4ed8", "#22d3ee"], motif: "wave" },
+  { code: "jm", nameRu: "Ямайка", nameEn: "Jamaica", flag: "🇯🇲", region: "north_america", symbol: "🌴", landmark: "Регги, пляжи, водопады", accent: ["#15803d", "#eab308"], motif: "leaf" },
+  { code: "gt", nameRu: "Гватемала", nameEn: "Guatemala", flag: "🇬🇹", region: "north_america", symbol: "🌋", landmark: "Майя, вулканы, Антигуа", accent: ["#0e7490", "#f59e0b"], motif: "temple" },
+
+  // ─────────── SOUTH AMERICA ───────────
+  { code: "br", nameRu: "Бразилия", nameEn: "Brazil", flag: "🇧🇷", region: "south_america", symbol: "⛪", landmark: "Рио, Христос, Амазонка", accent: ["#15803d", "#eab308"], motif: "leaf" },
+  { code: "ar", nameRu: "Аргентина", nameEn: "Argentina", flag: "🇦🇷", region: "south_america", symbol: "💃", landmark: "Буэнос-Айрес, Патагония, танго", accent: ["#0ea5e9", "#f8fafc"], motif: "flame" },
+  { code: "cl", nameRu: "Чили", nameEn: "Chile", flag: "🇨🇱", region: "south_america", symbol: "🏜️", landmark: "Атакама, Патагония, Пасхи", accent: ["#1e3a8a", "#dc2626"], motif: "peak" },
+  { code: "pe", nameRu: "Перу", nameEn: "Peru", flag: "🇵🇪", region: "south_america", symbol: "🏔️", landmark: "Мачу-Пикчу, инки", accent: ["#b91c1c", "#15803d"], motif: "peak" },
+  { code: "co", nameRu: "Колумбия", nameEn: "Colombia", flag: "🇨🇴", region: "south_america", symbol: "☕", landmark: "Картахена, кофе", accent: ["#eab308", "#dc2626"], motif: "leaf" },
+  { code: "bo", nameRu: "Боливия", nameEn: "Bolivia", flag: "🇧🇴", region: "south_america", symbol: "🧂", landmark: "Солончак Уюни", accent: ["#15803d", "#e0f2fe"], motif: "snow" },
+  { code: "ec", nameRu: "Эквадор", nameEn: "Ecuador", flag: "🇪🇨", region: "south_america", symbol: "🐢", landmark: "Галапагосы, экватор", accent: ["#eab308", "#1d4ed8"], motif: "leaf" },
+  { code: "uy", nameRu: "Уругвай", nameEn: "Uruguay", flag: "🇺🇾", region: "south_america", symbol: "🏖️", landmark: "Монтевидео, пляжи", accent: ["#0ea5e9", "#f8fafc"], motif: "wave" },
+  { code: "ve", nameRu: "Венесуэла", nameEn: "Venezuela", flag: "🇻🇪", region: "south_america", symbol: "💧", landmark: "Анхель, водопады", accent: ["#1d4ed8", "#eab308"], motif: "wave" },
+
+  // ─────────── AFRICA ───────────
+  { code: "eg", nameRu: "Египет", nameEn: "Egypt", flag: "🇪🇬", region: "africa", symbol: "🐫", landmark: "Пирамиды, Нил, Сфинкс", accent: ["#a16207", "#fde68a"], motif: "pyramid" },
+  { code: "ma", nameRu: "Марокко", nameEn: "Morocco", flag: "🇲🇦", region: "africa", symbol: "🕌", landmark: "Марракеш, Сахара", accent: ["#9a3412", "#1d4ed8"], motif: "sand" },
+  { code: "za", nameRu: "ЮАР", nameEn: "South Africa", flag: "🇿🇦", region: "africa", symbol: "🦁", landmark: "Кейптаун, сафари", accent: ["#15803d", "#eab308"], motif: "leaf" },
+  { code: "tz", nameRu: "Танзания", nameEn: "Tanzania", flag: "🇹🇿", region: "africa", symbol: "🦒", landmark: "Килиманджаро, Серенгети", accent: ["#15803d", "#f59e0b"], motif: "peak" },
+  { code: "ke", nameRu: "Кения", nameEn: "Kenya", flag: "🇰🇪", region: "africa", symbol: "🐘", landmark: "Масаи-Мара, сафари", accent: ["#b91c1c", "#15803d"], motif: "leaf" },
+  { code: "tn", nameRu: "Тунис", nameEn: "Tunisia", flag: "🇹🇳", region: "africa", symbol: "🏜️", landmark: "Карфаген, Сахара", accent: ["#b91c1c", "#fbbf24"], motif: "sand" },
+  { code: "et", nameRu: "Эфиопия", nameEn: "Ethiopia", flag: "🇪🇹", region: "africa", symbol: "☕", landmark: "Лалибэла, кофе", accent: ["#15803d", "#eab308"], motif: "leaf" },
+  { code: "ng", nameRu: "Нигерия", nameEn: "Nigeria", flag: "🇳🇬", region: "africa", symbol: "🥁", landmark: "Лагос, Afrobeats", accent: ["#15803d", "#f8fafc"], motif: "spark" },
+  { code: "mu", nameRu: "Маврикий", nameEn: "Mauritius", flag: "🇲🇺", region: "africa", symbol: "🏝️", landmark: "Лагуны, водопады", accent: ["#0891b2", "#5eead4"], motif: "wave" },
+  { code: "sc", nameRu: "Сейшелы", nameEn: "Seychelles", flag: "🇸🇨", region: "africa", symbol: "🏖️", landmark: "Гранитные пляжи", accent: ["#0d9488", "#a7f3d0"], motif: "wave" },
+  { code: "na", nameRu: "Намибия", nameEn: "Namibia", flag: "🇳🇦", region: "africa", symbol: "🏜️", landmark: "Дюны Соссусфлей", accent: ["#9a3412", "#fbbf24"], motif: "sand" },
+
+  // ─────────── OCEANIA ───────────
+  { code: "au", nameRu: "Австралия", nameEn: "Australia", flag: "🇦🇺", region: "oceania", symbol: "🦘", landmark: "Сидней, Большой риф", accent: ["#0e7490", "#f59e0b"], motif: "wave" },
+  { code: "nz", nameRu: "Новая Зеландия", nameEn: "New Zealand", flag: "🇳🇿", region: "oceania", symbol: "🏔️", landmark: "Фьорды, Средиземье", accent: ["#0f766e", "#1e3a8a"], motif: "peak" },
+  { code: "fj", nameRu: "Фиджи", nameEn: "Fiji", flag: "🇫🇯", region: "oceania", symbol: "🏝️", landmark: "333 острова, лагуны", accent: ["#0891b2", "#5eead4"], motif: "wave" },
+  { code: "pf", nameRu: "Французская Полинезия", nameEn: "French Polynesia", flag: "🇵🇫", region: "oceania", symbol: "🌺", landmark: "Бора-Бора, бунгало", accent: ["#0e7490", "#fb7185"], motif: "wave" },
+  { code: "ws", nameRu: "Самоа", nameEn: "Samoa", flag: "🇼🇸", region: "oceania", symbol: "🌊", landmark: "Водопады, лагуны", accent: ["#1d4ed8", "#22d3ee"], motif: "wave" },
+  { code: "pg", nameRu: "Папуа — Новая Гвинея", nameEn: "Papua New Guinea", flag: "🇵🇬", region: "oceania", symbol: "🌴", landmark: "Дикие леса, племена", accent: ["#7f1d1d", "#15803d"], motif: "leaf" },
+];
+
+export const COUNTRIES_BY_CODE: Record<string, Country> = Object.fromEntries(
+  COUNTRIES.map((c) => [c.code, c])
+);
