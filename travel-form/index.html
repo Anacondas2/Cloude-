@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>World Traveler — Где ты побывал?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<!-- ─── SPLASH SCREEN ─── -->
+<div id="splash" class="splash">
+  <div class="splash-globe">🌍</div>
+  <h1 class="splash-title"><em>World</em> Traveler</h1>
+  <p class="splash-sub">Выбери страны, в которых ты побывал</p>
+  <div class="splash-loader"><div></div><div></div><div></div></div>
+</div>
+
+<!-- ─── MAIN APP ─── -->
+<div id="app" class="app hidden">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="header-globe">🌐</span>
+    </div>
+    <div class="header-center">
+      <h1 class="header-title"><em>World</em> Edition</h1>
+      <p class="header-sub">Отметь страны, где ты был</p>
+    </div>
+    <div class="header-right">
+      <button class="btn-results" id="btnResults" title="Результаты всех">👥</button>
+    </div>
+  </header>
+
+  <!-- Region tabs -->
+  <nav class="region-tabs" id="regionTabs">
+    <button class="tab active" data-region="all">🌍 Все</button>
+    <button class="tab" data-region="europe">🇪🇺 Европа</button>
+    <button class="tab" data-region="asia">🌏 Азия</button>
+    <button class="tab" data-region="americas">🌎 Америка</button>
+    <button class="tab" data-region="africa">🌍 Африка</button>
+    <button class="tab" data-region="oceania">🏝️ Океания</button>
+  </nav>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <input type="search" id="searchInput" class="search-input" placeholder="🔍  Найти страну…" />
+  </div>
+
+  <!-- Country grid -->
+  <main class="country-grid" id="countryGrid"></main>
+
+  <!-- Selection bar (fixed bottom) -->
+  <div class="selection-bar" id="selectionBar">
+    <div class="selection-bar-inner">
+      <div class="sel-flags" id="selFlags"></div>
+      <span class="sel-count" id="selCount">0 стран</span>
+      <button class="btn-submit" id="btnSubmit">Готово ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── COUNTRY DETAIL MODAL ─── -->
+<div id="countryModal" class="modal hidden">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-sheet">
+    <div class="modal-hero" id="modalHero">
+      <img id="modalPhoto" src="" alt="" />
+      <div class="modal-hero-overlay"></div>
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-hero-info">
+        <span class="modal-flag" id="modalFlag"></span>
+        <h2 class="modal-country-name" id="modalCountryName"></h2>
+        <p class="modal-capital" id="modalCapital"></p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-fact" id="modalFact"></p>
+      <button class="btn-toggle-country" id="btnToggleCountry">
+        <span id="toggleIcon">✅</span>
+        <span id="toggleText">Добавить в мой список</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── RESULTS MODAL ─── -->
+<div id="resultsModal" class="modal hidden">
+  <div class="modal-backdrop" id="resultsBackdrop"></div>
+  <div class="modal-sheet results-sheet">
+    <div class="results-header">
+      <h2>🌍 Путешественники</h2>
+      <button class="modal-close" id="resultsClose">✕</button>
+    </div>
+    <div class="results-body" id="resultsBody">
+      <div class="results-loading">Загрузка…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONFIRM MODAL ─── -->
+<div id="confirmModal" class="modal hidden">
+  <div class="modal-backdrop" id="confirmBackdrop"></div>
+  <div class="modal-sheet confirm-sheet">
+    <div class="confirm-icon">🗺️</div>
+    <h2 class="confirm-title">Опубликовать список?</h2>
+    <p class="confirm-sub">Все участники группы увидят страны, в которых ты побывал</p>
+    <div class="confirm-preview" id="confirmPreview"></div>
+    <div class="confirm-actions">
+      <button class="btn-cancel" id="btnCancel">Отмена</button>
+      <button class="btn-publish" id="btnPublish">Опубликовать 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SUCCESS SCREEN ─── -->
+<div id="successScreen" class="modal hidden">
+  <div class="success-content">
+    <div class="success-animation">
+      <div class="success-circle"></div>
+      <span class="success-check">✓</span>
+    </div>
+    <h2 class="success-title">Опубликовано!</h2>
+    <p class="success-sub">Твой список стран отправлен в чат</p>
+    <div class="success-flags" id="successFlags"></div>
+    <button class="btn-close-success" id="btnCloseSuccess">Закрыть</button>
+  </div>
+</div>
+
+<script src="countries.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
