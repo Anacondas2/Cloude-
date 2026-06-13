@@ -27,6 +27,7 @@ export default function Home() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [publishError, setPublishError] = useState<string | null>(null);
 
   // Telegram WebApp init + prefill name
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function Home() {
 
   async function publish() {
     setLoading(true);
+    setPublishError(null);
     try {
       await createSubmission(
         name.trim() || "Путешественник",
@@ -87,6 +89,8 @@ export default function Home() {
       );
       setConfirmOpen(false);
       setStep("done");
+    } catch {
+      setPublishError("Не удалось опубликовать. Попробуй ещё раз.");
     } finally {
       setLoading(false);
     }
@@ -192,7 +196,8 @@ export default function Home() {
         open={confirmOpen}
         selected={selectedList}
         loading={loading}
-        onBack={() => setConfirmOpen(false)}
+        error={publishError}
+        onBack={() => { setConfirmOpen(false); setPublishError(null); }}
         onConfirm={publish}
       />
     </main>

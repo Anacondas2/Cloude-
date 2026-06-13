@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 interface Props {
@@ -61,22 +62,31 @@ export function LandingHero({ onStart }: Props) {
           появится в общей публичной ленте.
         </p>
 
-        <motion.button
-          onClick={onStart}
-          whileTap={{ scale: 0.95 }}
-          className="group mt-9 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald2-400 to-lime2-400 px-8 py-4 text-base font-bold text-forest-950 shadow-[0_16px_40px_-10px_rgba(52,224,140,0.7)]"
-        >
-          Начать выбор
-          <motion.span
-            animate={{ x: [0, 5, 0] }}
-            transition={{ duration: 1.4, repeat: Infinity }}
+        <div className="mt-9 flex w-full max-w-xs flex-col gap-3">
+          <motion.button
+            onClick={onStart}
+            whileTap={{ scale: 0.95 }}
+            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald2-400 to-lime2-400 px-8 py-4 text-base font-bold text-forest-950 shadow-[0_16px_40px_-10px_rgba(52,224,140,0.7)]"
           >
-            →
-          </motion.span>
-        </motion.button>
+            Начать выбор
+            <motion.span
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity }}
+            >
+              →
+            </motion.span>
+          </motion.button>
+
+          <Link
+            href="/results"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald2-400/20 px-8 py-3.5 text-[14px] font-semibold text-cream/70 transition hover:border-emerald2-400/40 hover:text-cream/90 active:scale-95"
+          >
+            👥 Смотреть результаты группы
+          </Link>
+        </div>
 
         <p className="mt-8 text-xs text-cream/35">
-          Без регистрации · Видно всей группе
+          Без регистрации · Видно всей группе · 195+ стран
         </p>
       </motion.div>
     </div>

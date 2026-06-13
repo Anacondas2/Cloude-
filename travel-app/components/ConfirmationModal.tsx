@@ -7,6 +7,7 @@ interface Props {
   open: boolean;
   selected: Country[];
   loading: boolean;
+  error?: string | null;
   onBack: () => void;
   onConfirm: () => void;
 }
@@ -15,6 +16,7 @@ export function ConfirmationModal({
   open,
   selected,
   loading,
+  error,
   onBack,
   onConfirm,
 }: Props) {
@@ -59,6 +61,10 @@ export function ConfirmationModal({
                 </span>
               ))}
             </div>
+
+            {error && (
+              <p className="mt-4 text-center text-[13px] text-red-400">{error}</p>
+            )}
 
             <div className="mt-6 flex gap-3">
               <button
