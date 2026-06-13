@@ -96,6 +96,13 @@ export function LandingHero({ onStart, draftCount = 0 }: Props) {
           >
             👥 Смотреть результаты группы
           </Link>
+
+          <Link
+            href="/games"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 px-8 py-3 text-[14px] font-semibold text-cream/55 transition hover:border-white/20 hover:text-cream/80 active:scale-95"
+          >
+            🎮 Игры · Угадай столицу и флаг
+          </Link>
         </div>
 
         <p className="mt-8 text-xs text-cream/35">
