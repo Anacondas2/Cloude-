@@ -1,24 +1,24 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { GameCell } from "./GameCell";
-import { SwapAnim } from "@/hooks/useFlagMatchGame";
+import { SwapPair } from "@/hooks/useFlagMatchGame";
 import { BOARD_SIZE } from "@/lib/match-game/engine";
 import { GameCountry } from "@/lib/game-engine";
 
 interface Props {
   grid: string[][];
+  cellGeneration: number[][];  // per-cell generation counter; increments → remount → entry anim
   sessionCountries: GameCountry[];
   selected: { r: number; c: number } | null;
-  matched: Set<string>;
-  newCells: Set<string>;
-  swapAnim: SwapAnim | null;
+  matchedCells: Set<string>;
+  swappingCells: SwapPair | null;
+  invalidCells: SwapPair | null;
   reshuffling: boolean;
   onCellTap: (r: number, c: number) => void;
 }
 
-// Map code → flag emoji
 function buildFlagMap(countries: GameCountry[]): Record<string, string> {
   const m: Record<string, string> = {};
   for (const c of countries) m[c.code] = c.flag;
@@ -26,18 +26,19 @@ function buildFlagMap(countries: GameCountry[]): Record<string, string> {
 }
 
 export function GameBoard({
-  grid, sessionCountries, selected, matched, newCells, swapAnim, reshuffling, onCellTap,
+  grid, cellGeneration, sessionCountries,
+  selected, matchedCells, swappingCells, invalidCells,
+  reshuffling, onCellTap,
 }: Props) {
   const boardRef = useRef<HTMLDivElement>(null);
-  const [cellSize, setCellSize] = useState(40);
+  const [cellSize, setCellSize] = useState(42);
   const flagMap = buildFlagMap(sessionCountries);
 
   useEffect(() => {
     function measure() {
-      if (boardRef.current) {
-        const w = boardRef.current.clientWidth;
-        setCellSize(Math.floor((w - (BOARD_SIZE - 1) * 2) / BOARD_SIZE));
-      }
+      if (!boardRef.current) return;
+      const w = boardRef.current.clientWidth;
+      setCellSize(Math.floor((w - (BOARD_SIZE - 1) * 2) / BOARD_SIZE));
     }
     measure();
     const ro = new ResizeObserver(measure);
@@ -45,40 +46,52 @@ export function GameBoard({
     return () => ro.disconnect();
   }, []);
 
+  if (!grid.length) return null;
+
+  const boardPx = cellSize * BOARD_SIZE + 2 * (BOARD_SIZE - 1);
+
   return (
     <motion.div
       ref={boardRef}
-      animate={reshuffling ? {
-        scale: [1, 0.95, 1],
-        filter: ["brightness(1)", "brightness(1.4)", "brightness(1)"],
-      } : { scale: 1, filter: "brightness(1)" }}
-      transition={{ duration: 0.6 }}
       className="w-full"
+      animate={reshuffling
+        ? { scale: [1, 0.94, 1], opacity: [1, 0.6, 1] }
+        : { scale: 1, opacity: 1 }
+      }
+      transition={{ duration: 0.6, ease: "easeInOut" }}
     >
       <div
-        className="grid mx-auto"
+        className="mx-auto"
         style={{
+          display: "grid",
           gridTemplateColumns: `repeat(${BOARD_SIZE}, ${cellSize}px)`,
           gap: 2,
-          width: cellSize * BOARD_SIZE + 2 * (BOARD_SIZE - 1),
+          width: boardPx,
         }}
       >
         {grid.flatMap((row, r) =>
-          row.map((code, c) => (
-            <GameCell
-              key={`${r}-${c}`}
-              r={r}
-              c={c}
-              flag={flagMap[code] ?? "🏳️"}
-              flagCode={code}
-              selected={!!(selected && selected.r === r && selected.c === c)}
-              matched={matched.has(`${r},${c}`)}
-              isNew={newCells.has(`${r},${c}`)}
-              swapAnim={swapAnim}
-              cellSize={cellSize}
-              onClick={() => onCellTap(r, c)}
-            />
-          ))
+          row.map((code, c) => {
+            const gen = cellGeneration[r]?.[c] ?? 0;
+            // Changing the key forces React to unmount+remount → triggers isNew animation
+            const key = `${r}-${c}-${gen}`;
+            const isNew = gen > 0; // gen=0 is the initial board (no entry anim)
+
+            return (
+              <GameCell
+                key={key}
+                r={r}
+                c={c}
+                flag={flagMap[code] ?? "🏳️"}
+                isSelected={!!(selected && selected.r === r && selected.c === c)}
+                isMatched={matchedCells.has(`${r},${c}`)}
+                isNew={isNew}
+                swappingCells={swappingCells}
+                invalidCells={invalidCells}
+                cellSize={cellSize}
+                onClick={() => onCellTap(r, c)}
+              />
+            );
+          })
         )}
       </div>
     </motion.div>
