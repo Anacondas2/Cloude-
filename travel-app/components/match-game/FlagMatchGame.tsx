@@ -10,13 +10,10 @@ import { GameResultModal } from "./GameResultModal";
 import { GameHelpModal } from "./GameHelpModal";
 import { loadMatchBest, MatchBest } from "@/lib/match-game/engine";
 
-interface Props {
-  onExit: () => void;
-}
+interface Props { onExit: () => void }
 
 export function FlagMatchGame({ onExit }: Props) {
   const [showHelp, setShowHelp] = useState(false);
-  // loadMatchBest uses localStorage — only read client-side
   const [best, setBest] = useState<MatchBest | null>(null);
   useEffect(() => { setBest(loadMatchBest()); }, []);
 
@@ -26,7 +23,7 @@ export function FlagMatchGame({ onExit }: Props) {
   return (
     <div className="relative flex min-h-[100dvh] flex-col px-3 pt-4 pb-6 select-none overflow-hidden">
 
-      {/* ── Header ─────────────────────────────────────────────────────── */}
+      {/* Header */}
       <div className="mb-3 flex items-center gap-2">
         <button
           onClick={game.exitGame}
@@ -34,18 +31,12 @@ export function FlagMatchGame({ onExit }: Props) {
         >
           ←
         </button>
-
-        <div className="flex-1 min-w-0 text-center">
-          <h1 className="font-display text-[15px] font-bold text-cream leading-none">
-            4 флага в ряд
-          </h1>
+        <div className="flex-1 text-center">
+          <h1 className="font-display text-[15px] font-bold text-cream leading-none">4 флага в ряд</h1>
           {best && best.totalWins > 0 && (
-            <p className="text-[10px] text-cream/30">
-              Рекорд: {best.bestScore.toLocaleString()} · {best.totalWins} побед
-            </p>
+            <p className="text-[10px] text-cream/30">Рекорд: {best.bestScore.toLocaleString()} · {best.totalWins} побед</p>
           )}
         </div>
-
         <button
           onClick={() => setShowHelp(true)}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] text-cream/50 font-bold transition hover:text-cream active:scale-90"
@@ -54,12 +45,12 @@ export function FlagMatchGame({ onExit }: Props) {
         </button>
       </div>
 
-      {/* ── Timer ──────────────────────────────────────────────────────── */}
+      {/* Timer */}
       <div className="mb-3">
         <TimerBar timeLeft={game.timeLeft} />
       </div>
 
-      {/* ── Stats row ──────────────────────────────────────────────────── */}
+      {/* Stats */}
       <div className="mb-3 flex items-center justify-between">
         <ProgressGoal matchCount={game.matchCount} />
         <div className="text-right">
@@ -68,16 +59,14 @@ export function FlagMatchGame({ onExit }: Props) {
         </div>
       </div>
 
-      {/* ── Board ──────────────────────────────────────────────────────── */}
+      {/* Board */}
       <div className="flex flex-1 flex-col items-center justify-center gap-3">
         <GameBoard
-          grid={game.grid}
-          cellGeneration={game.cellGeneration}
+          board={game.board}
           sessionCountries={game.sessionCountries}
-          selected={game.selected}
-          matchedCells={game.matchedCells}
-          swappingCells={game.swappingCells}
-          invalidCells={game.invalidCells}
+          selectedPos={game.selectedPos}
+          matchedIds={game.matchedIds}
+          newIds={game.newIds}
           reshuffling={game.reshuffling}
           onCellTap={game.handleCellTap}
         />
@@ -96,15 +85,15 @@ export function FlagMatchGame({ onExit }: Props) {
         </AnimatePresence>
       </div>
 
-      {/* ── Footer ─────────────────────────────────────────────────────── */}
+      {/* Footer */}
       <div className="mt-3 flex items-center justify-between">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2">
           {game.sessionCountries.map(c => (
             <span key={c.code} className="text-xl" title={c.nameRu}>{c.flag}</span>
           ))}
         </div>
-        <div className="flex items-center gap-3 text-[11px] text-cream/35">
-          <span>{game.moves} ходов</span>
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] text-cream/30">{game.moves} ходов</span>
           <button
             onClick={game.restart}
             className="rounded-xl border border-white/10 px-3 py-1.5 text-[12px] font-semibold text-cream/50 transition hover:text-cream/80 active:scale-95"
@@ -114,7 +103,7 @@ export function FlagMatchGame({ onExit }: Props) {
         </div>
       </div>
 
-      {/* ── Modals ─────────────────────────────────────────────────────── */}
+      {/* Result modal */}
       <AnimatePresence>
         {isDone && (
           <GameResultModal

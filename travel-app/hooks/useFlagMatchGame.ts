@@ -3,29 +3,24 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
   BOARD_SIZE, GAME_DURATION, MATCH_TARGET, MAX_CASCADE, SESSION_FLAG_COUNT,
-  Grid, Pos, Match,
-  generateGrid, findMatches, isAdjacent, swapGrid, swapCreatesMatch,
-  clearMatchedCells, applyGravity, refillGrid, getNewCellKeys,
-  hasPossibleMove, reshuffleGrid,
-  scoreForMatches, scoreTimeBonus,
-  saveMatchResult,
+  CellBoard, CellData, Pos, Match,
+  generateCellBoard, toGrid, findMatches, isAdjacent,
+  swapCreatesMatch, swapCellBoard,
+  clearGravityRefill, hasPossibleMove, reshuffleCellBoard,
+  scoreForMatches, scoreTimeBonus, saveMatchResult,
 } from "@/lib/match-game/engine";
 import { ALL_GAME_COUNTRIES, GameCountry, shuffle } from "@/lib/game-engine";
 
 export type GamePhase =
   | "idle" | "playing" | "swapping" | "resolving" | "reshuffling" | "won" | "lost";
 
-export interface SwapPair { a: Pos; b: Pos }
-
 export interface FlagMatchState {
   phase: GamePhase;
-  grid: Grid;
-  cellGeneration: number[][];  // increments when a cell is refilled (triggers new-cell animation)
+  board: CellBoard;
   sessionCountries: GameCountry[];
-  selected: Pos | null;
-  matchedCells: Set<string>;   // "r,c" of cells being cleared (highlight)
-  swappingCells: SwapPair | null; // cells being animated during swap
-  invalidCells: SwapPair | null;  // cells doing shake on invalid swap
+  selectedPos: Pos | null;
+  matchedIds: Set<string>;   // IDs of cells being cleared
+  newIds: Set<string>;       // IDs of just-added cells (entry anim)
   reshuffling: boolean;
   score: number;
   matchCount: number;
@@ -36,34 +31,26 @@ export interface FlagMatchState {
   exitGame: () => void;
 }
 
-function newGenGrid(): number[][] {
-  return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(0));
-}
-
 export function useFlagMatchGame(onExit: () => void): FlagMatchState {
-  // ── Render state ────────────────────────────────────────────────────────────
-  const [phase, setPhase]               = useState<GamePhase>("idle");
-  const [grid, setGrid]                 = useState<Grid>([]);
-  const [cellGeneration, setCellGen]    = useState<number[][]>(newGenGrid());
+  const [phase, setPhase]             = useState<GamePhase>("idle");
+  const [board, setBoard]             = useState<CellBoard>([]);
   const [sessionCountries, setSessCtrs] = useState<GameCountry[]>([]);
-  const [selected, setSelected]         = useState<Pos | null>(null);
-  const [matchedCells, setMatchedCells] = useState<Set<string>>(new Set());
-  const [swappingCells, setSwappingCells] = useState<SwapPair | null>(null);
-  const [invalidCells, setInvalidCells]   = useState<SwapPair | null>(null);
-  const [reshuffling, setReshuffling]   = useState(false);
-  const [score, setScore]               = useState(0);
-  const [matchCount, setMatchCount]     = useState(0);
-  const [moves, setMoves]               = useState(0);
-  const [timeLeft, setTimeLeft]         = useState(GAME_DURATION);
+  const [selectedPos, setSelectedPos] = useState<Pos | null>(null);
+  const [matchedIds, setMatchedIds]   = useState<Set<string>>(new Set());
+  const [newIds, setNewIds]           = useState<Set<string>>(new Set());
+  const [reshuffling, setReshuffling] = useState(false);
+  const [score, setScore]             = useState(0);
+  const [matchCount, setMatchCount]   = useState(0);
+  const [moves, setMoves]             = useState(0);
+  const [timeLeft, setTimeLeft]       = useState(GAME_DURATION);
 
-  // ── Mutable refs (safe inside setTimeout/setInterval closures) ─────────────
+  // Refs for values used inside setTimeout (no stale closure)
+  const boardRef        = useRef<CellBoard>([]);
   const phaseRef        = useRef<GamePhase>("idle");
-  const gridRef         = useRef<Grid>([]);
-  const cellGenRef      = useRef<number[][]>(newGenGrid());
+  const selectedRef     = useRef<Pos | null>(null);
   const matchCountRef   = useRef(0);
   const scoreRef        = useRef(0);
   const sessionFlagsRef = useRef<string[]>([]);
-  const selectedRef     = useRef<Pos | null>(null);  // sync selection (no stale closure)
   const isAnimating     = useRef(false);
   const timerRef        = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeLeftRef     = useRef(GAME_DURATION);
@@ -79,7 +66,7 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
     };
   }, []);
 
-  // ── Helpers ─────────────────────────────────────────────────────────────────
+  // ── Helpers ────────────────────────────────────────────────────────────────
 
   function later(fn: () => void, ms: number) {
     const t = setTimeout(() => { if (isMounted.current) fn(); }, ms);
@@ -88,10 +75,8 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
   }
 
   function setPhaseSync(p: GamePhase) { phaseRef.current = p; setPhase(p); }
-
-  function setGridSync(g: Grid) { gridRef.current = g; setGrid(g); }
-
-  function selectCell(pos: Pos | null) { selectedRef.current = pos; setSelected(pos); }
+  function setBoardSync(b: CellBoard) { boardRef.current = b; setBoard(b); }
+  function selectPos(pos: Pos | null) { selectedRef.current = pos; setSelectedPos(pos); }
 
   function stopTimer() {
     if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
@@ -103,10 +88,7 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
       if (!isMounted.current) return;
       timeLeftRef.current -= 1;
       setTimeLeft(timeLeftRef.current);
-      if (timeLeftRef.current <= 0) {
-        stopTimer();
-        endLoss();
-      }
+      if (timeLeftRef.current <= 0) { stopTimer(); endLoss(); }
     }, 1000);
   }
 
@@ -127,7 +109,7 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
     saveMatchResult({ score: scoreRef.current, won: false, timeLeft: 0, flags: sessionFlagsRef.current });
   }
 
-  // ── Board start ─────────────────────────────────────────────────────────────
+  // ── Start / Restart ────────────────────────────────────────────────────────
 
   const startGame = useCallback(() => {
     stopTimer();
@@ -139,22 +121,17 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
     const flags = countries.map(c => c.code);
     sessionFlagsRef.current = flags;
 
-    const g = generateGrid(flags);
-    gridRef.current = g;
+    const b = generateCellBoard(flags);
+    boardRef.current = b;
     matchCountRef.current = 0;
     scoreRef.current = 0;
     timeLeftRef.current = GAME_DURATION;
 
-    const gen = newGenGrid();
-    cellGenRef.current = gen;
-
     setSessCtrs(countries);
-    setGrid(g);
-    setCellGen(gen);
-    selectCell(null);
-    setMatchedCells(new Set());
-    setSwappingCells(null);
-    setInvalidCells(null);
+    setBoard(b);
+    selectPos(null);
+    setMatchedIds(new Set());
+    setNewIds(new Set());
     setReshuffling(false);
     setScore(0);
     setMatchCount(0);
@@ -167,10 +144,10 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
 
   useEffect(() => { startGame(); }, [startGame]);
 
-  // ── Match pipeline ──────────────────────────────────────────────────────────
+  // ── Match pipeline ─────────────────────────────────────────────────────────
 
   function runMatchPipeline(
-    g: Grid,
+    b: CellBoard,
     matches: Match[],
     cascade: number,
     curMatchCount: number,
@@ -178,9 +155,9 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
   ) {
     isAnimating.current = true;
 
-    // 1. Highlight matched cells
-    const matchedSet = new Set(matches.flatMap(m => m.cells.map(({ r, c }) => `${r},${c}`)));
-    setMatchedCells(matchedSet);
+    // Highlight matched cells
+    const ids = new Set(matches.flatMap(m => m.cells.map(({ r, c }) => b[r][c].id)));
+    setMatchedIds(ids);
 
     const pts = scoreForMatches(matches, cascade);
     const newScore = curScore + pts;
@@ -191,52 +168,43 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
     matchCountRef.current = newMatchCount;
     setMatchCount(newMatchCount);
 
-    // 2. After highlight flash → clear cells, apply gravity, refill
+    // Flash highlight
     later(() => {
-      setMatchedCells(new Set());
+      setMatchedIds(new Set());
 
       if (newMatchCount >= MATCH_TARGET) {
-        later(endWin, 250);
+        later(endWin, 200);
         return;
       }
 
-      const cleared = clearMatchedCells(g, matches);
-      const fallen  = applyGravity(cleared);
-      const filled  = refillGrid(fallen, sessionFlagsRef.current);
-      const newKeys = getNewCellKeys(fallen, filled);
+      // Gravity + refill
+      const { newBoard, newIds: fresh } = clearGravityRefill(b, matches, sessionFlagsRef.current);
+      setBoardSync(newBoard);
+      setNewIds(fresh);
 
-      // Bump generation for new cells so GameBoard remounts them (triggers entry animation)
-      const gen = cellGenRef.current.map(r => [...r]);
-      for (const key of newKeys) {
-        const [r, c] = key.split(",").map(Number);
-        gen[r][c]++;
-      }
-      cellGenRef.current = gen;
-
-      setGridSync(filled);
-      setCellGen([...gen]);
-
-      // 3. After fall+fill animation → check cascade
+      // Wait for layout animation (cells fall via layoutId)
       later(() => {
-        const cascadeMatches = findMatches(filled);
+        setNewIds(new Set());
+
+        const cascadeMatches = findMatches(toGrid(newBoard));
         if (cascadeMatches.length > 0 && cascade < MAX_CASCADE) {
-          runMatchPipeline(filled, cascadeMatches, cascade + 1, newMatchCount, newScore);
-        } else if (!hasPossibleMove(filled)) {
-          doReshuffle(filled);
+          runMatchPipeline(newBoard, cascadeMatches, cascade + 1, newMatchCount, newScore);
+        } else if (!hasPossibleMove(toGrid(newBoard))) {
+          doReshuffle(newBoard);
         } else {
           setPhaseSync("playing");
           isAnimating.current = false;
         }
-      }, 520);
-    }, 460);
+      }, 550);
+    }, 450);
   }
 
-  function doReshuffle(g: Grid) {
+  function doReshuffle(b: CellBoard) {
     setPhaseSync("reshuffling");
     setReshuffling(true);
     later(() => {
-      const reshuffled = reshuffleGrid(g, sessionFlagsRef.current);
-      setGridSync(reshuffled);
+      const reshuffled = reshuffleCellBoard(b, sessionFlagsRef.current);
+      setBoardSync(reshuffled);
       setReshuffling(false);
       later(() => {
         setPhaseSync("playing");
@@ -245,61 +213,58 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
     }, 600);
   }
 
-  // ── Tap handler (NO side-effects inside setState) ──────────────────────────
+  // ── Cell tap — the core interaction ────────────────────────────────────────
 
   const handleCellTap = useCallback((r: number, c: number) => {
     if (phaseRef.current !== "playing" || isAnimating.current) return;
 
     const prev = selectedRef.current;
 
-    // First tap — select
-    if (!prev) { selectCell({ r, c }); return; }
+    // No previous selection → select this cell
+    if (!prev) { selectPos({ r, c }); return; }
 
-    // Tap same — deselect
-    if (prev.r === r && prev.c === c) { selectCell(null); return; }
+    // Tap same cell → deselect
+    if (prev.r === r && prev.c === c) { selectPos(null); return; }
 
-    // Tap non-adjacent — move selection
-    if (!isAdjacent(prev, { r, c })) { selectCell({ r, c }); return; }
+    // Tap non-adjacent → move selection
+    if (!isAdjacent(prev, { r, c })) { selectPos({ r, c }); return; }
 
-    // Adjacent tap — attempt swap
+    // ── Adjacent tap: attempt swap ──────────────────────────────────────────
     const a = prev;
     const b = { r, c };
-    selectCell(null);
+    selectPos(null);
     isAnimating.current = true;
     setPhaseSync("swapping");
 
-    // Show "compression" animation on both cells
-    setSwappingCells({ a, b });
+    const currentBoard = boardRef.current;
+    const currentGrid  = toGrid(currentBoard);
 
+    // Immediately swap the board so layoutId animation plays
+    const swapped = swapCellBoard(currentBoard, a, b);
+    setBoardSync(swapped);
+
+    // After swap animation (layoutId FLIP), check for matches
     later(() => {
-      const g = gridRef.current;
-      const valid = swapCreatesMatch(g, a, b);
-
-      setSwappingCells(null);
+      const valid = swapCreatesMatch(currentGrid, a, b);
 
       if (!valid) {
-        // Shake then back to playing
-        setInvalidCells({ a, b });
+        // Swap back — layoutId will animate cells returning to original spots
+        setBoardSync(currentBoard);
         later(() => {
-          setInvalidCells(null);
           setPhaseSync("playing");
           isAnimating.current = false;
-        }, 380);
+        }, 260); // time for bounce-back animation
         return;
       }
 
-      // Valid — commit swap
-      const newGrid = swapGrid(g, a, b);
-      setGridSync(newGrid);
+      // Valid swap — find matches and run pipeline
       setMoves(m => m + 1);
       setPhaseSync("resolving");
-
-      // Tiny pause so grid renders before match pipeline starts
+      const matches = findMatches(toGrid(swapped));
       later(() => {
-        const matches = findMatches(newGrid);
-        runMatchPipeline(newGrid, matches, 0, matchCountRef.current, scoreRef.current);
+        runMatchPipeline(swapped, matches, 0, matchCountRef.current, scoreRef.current);
       }, 60);
-    }, 180);
+    }, 260); // time for swap animation to complete
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -307,9 +272,9 @@ export function useFlagMatchGame(onExit: () => void): FlagMatchState {
   const exitGame = useCallback(() => { stopTimer(); onExit(); }, [onExit]);
 
   return {
-    phase, grid, cellGeneration, sessionCountries,
-    selected, matchedCells, swappingCells, invalidCells,
-    reshuffling, score, matchCount, moves, timeLeft,
+    phase, board, sessionCountries, selectedPos,
+    matchedIds, newIds, reshuffling,
+    score, matchCount, moves, timeLeft,
     handleCellTap, restart, exitGame,
   };
 }
