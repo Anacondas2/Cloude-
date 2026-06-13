@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createClient, type VercelKV } from "@vercel/kv";
 import type { Submission, SubmissionCountry } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -6,17 +7,26 @@ export const dynamic = "force-dynamic";
 const KEY = "trewel:submissions";
 const MAX = 500;
 
-const hasKV =
-  Boolean(process.env.KV_REST_API_URL) &&
-  Boolean(process.env.KV_REST_API_TOKEN);
+// Support both Vercel KV and Upstash Redis env var names.
+const KV_URL =
+  process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const KV_TOKEN =
+  process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+const hasKV = Boolean(KV_URL && KV_TOKEN);
 
 // In-memory fallback for local `next dev` (no persistence across deploys).
 const mem: Submission[] =
   ((globalThis as any).__trewelMem ??= [] as Submission[]);
 
-async function getKv() {
-  const { kv } = await import("@vercel/kv");
-  return kv;
+let kvClient: VercelKV | null = null;
+function getKv(): VercelKV {
+  if (!kvClient) {
+    kvClient = createClient({
+      url: KV_URL as string,
+      token: KV_TOKEN as string,
+    });
+  }
+  return kvClient;
 }
 
 function sanitize(body: any): Submission | null {
