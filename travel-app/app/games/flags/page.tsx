@@ -242,9 +242,8 @@ export default function FlagsGame() {
                   onClick={() => choose(c.code)}
                   disabled={phase === "feedback"}
                   whileTap={phase === "playing" ? { scale: 0.97 } : undefined}
-                  className={`rounded-2xl px-3 py-4 text-left text-[13px] font-semibold transition ${bg} ${text}`}
+                  className={`rounded-2xl px-4 py-4 text-center text-[13px] font-semibold leading-snug transition ${bg} ${text}`}
                 >
-                  <span className="mr-1.5 text-xl">{c.flag}</span>
                   {c.nameRu}
                 </motion.button>
               );
