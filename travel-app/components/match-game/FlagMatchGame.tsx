@@ -69,6 +69,7 @@ export function FlagMatchGame({ onExit }: Props) {
           newIds={game.newIds}
           reshuffling={game.reshuffling}
           onCellTap={game.handleCellTap}
+          onCellSwipe={game.handleCellSwipe}
         />
 
         <AnimatePresence>

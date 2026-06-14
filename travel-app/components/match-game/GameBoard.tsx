@@ -14,6 +14,7 @@ interface Props {
   newIds: Set<string>;
   reshuffling: boolean;
   onCellTap: (r: number, c: number) => void;
+  onCellSwipe: (r: number, c: number, dr: number, dc: number) => void;
 }
 
 function buildFlagMap(countries: GameCountry[]): Record<string, string> {
@@ -23,7 +24,7 @@ function buildFlagMap(countries: GameCountry[]): Record<string, string> {
 }
 
 export function GameBoard({
-  board, sessionCountries, selectedPos, matchedIds, newIds, reshuffling, onCellTap,
+  board, sessionCountries, selectedPos, matchedIds, newIds, reshuffling, onCellTap, onCellSwipe,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [cellSize, setCellSize] = useState(42);
@@ -79,6 +80,7 @@ export function GameBoard({
                   isNew={newIds.has(cell.id)}
                   cellSize={cellSize}
                   onClick={() => onCellTap(r, c)}
+                  onSwipe={(dr, dc) => onCellSwipe(r, c, dr, dc)}
                 />
               ))
             )}
