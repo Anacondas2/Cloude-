@@ -3,19 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI Projects Portfolio — открытые проекты на GitHub для AI-приложений, вайбкодинга и работы с ИИ">
+    <meta name="description" content="AI Projects — портфолио open-source GitHub-проектов для AI-приложений, вайбкодинга и работы с ИИ. Neomorphism design.">
+    <meta name="keywords" content="ai projects, vibe coding, github, claude api, open source, портфолио">
+    <meta property="og:title" content="AI.Portfolio — GitHub Projects · Vibe Coding · AI Tools">
+    <meta property="og:description" content="Open-source проекты для AI-приложений и вайбкодинга. Neomorphism × organic grids.">
+    <meta property="og:type" content="website">
     <title>AI.Portfolio — GitHub Projects · Vibe Coding · AI Tools</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- GRAIN OVERLAY -->
+    <svg class="grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <filter id="grainFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#grainFilter)"/>
+    </svg>
+
+    <!-- SCROLL PROGRESS -->
+    <div class="scroll-progress" aria-hidden="true"><span class="sp-bar"></span></div>
+
     <!-- CURSOR -->
     <div class="cursor-wrap" aria-hidden="true">
         <div class="cursor-dot"></div>
-        <div class="cursor-ring"></div>
+        <div class="cursor-ring"><span class="cursor-label"></span></div>
     </div>
 
     <!-- PRELOADER -->
@@ -25,11 +43,20 @@
             <span class="pl-letter">A</span>
             <span class="pl-letter">I</span>
         </div>
-        <span class="pl-sub mono">initializing_</span>
+        <span class="pl-sub mono">initializing<span class="pl-pct">0</span>%</span>
     </div>
 
+    <!-- SECTION INDICATOR -->
+    <ul class="dot-nav" aria-label="Навигация по секциям" role="list">
+        <li><a href="#hero" data-label="Intro" class="active" aria-label="Intro"></a></li>
+        <li><a href="#projects" data-label="Projects" aria-label="Projects"></a></li>
+        <li><a href="#vibe" data-label="Vibe" aria-label="Vibe Coding"></a></li>
+        <li><a href="#stack" data-label="Stack" aria-label="Tech Stack"></a></li>
+        <li><a href="#connect" data-label="Connect" aria-label="Connect"></a></li>
+    </ul>
+
     <!-- NAV -->
-    <nav id="nav" role="navigation">
+    <nav id="nav" role="navigation" aria-label="Главная навигация">
         <a href="#hero" class="nav-logo">
             <span class="logo-gem">◈</span>
             <span>AI<span class="logo-sep">.</span>Portfolio</span>
@@ -40,7 +67,7 @@
             <li><a href="#stack">Stack</a></li>
             <li><a href="#connect">Connect</a></li>
         </ul>
-        <a href="https://github.com" target="_blank" rel="noopener" class="nav-gh nm-pill">
+        <a href="https://github.com" target="_blank" rel="noopener" class="nav-gh nm-pill" data-cursor="GitHub">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
             </svg>
@@ -52,7 +79,7 @@
     </nav>
 
     <!-- MOBILE MENU -->
-    <div class="mobile-menu" role="dialog" aria-label="Меню" aria-hidden="true">
+    <div class="mobile-menu" role="dialog" aria-label="Мобильное меню" aria-hidden="true">
         <div class="mm-links">
             <a href="#projects" class="mm-link">Projects</a>
             <a href="#vibe" class="mm-link">Vibe Coding</a>
@@ -62,15 +89,16 @@
     </div>
 
     <!-- ═══════ HERO ═══════ -->
-    <section id="hero" aria-label="Hero">
-        <!-- Ambient background blobs -->
+    <section id="hero" aria-label="Главный экран">
+        <!-- Aurora mesh + blobs -->
+        <div class="hero-aurora" aria-hidden="true"></div>
         <div class="hero-blobs" aria-hidden="true">
             <div class="blob blob-1"></div>
             <div class="blob blob-2"></div>
             <div class="blob blob-3"></div>
         </div>
 
-        <!-- Floating info cards -->
+        <!-- Floating cards -->
         <div class="hero-floats" aria-hidden="true">
             <div class="float-card fc-1 nm-card">
                 <span class="fc-label mono">model</span>
@@ -93,16 +121,9 @@
             </div>
 
             <h1 class="hero-title">
-                <span class="ht-row">
-                    <span class="ht-w">Build</span>
-                    <span class="ht-w">with</span>
-                </span>
-                <span class="ht-row gradient-row">
-                    <span class="ht-w gradient-text">Artificial</span>
-                </span>
-                <span class="ht-row">
-                    <span class="ht-w">Intelligence</span>
-                </span>
+                <span class="ht-row"><span class="ht-w">Build</span><span class="ht-w">with</span></span>
+                <span class="ht-row gradient-row"><span class="ht-w gradient-text">Artificial</span></span>
+                <span class="ht-row"><span class="ht-w">Intelligence</span></span>
             </h1>
 
             <p class="hero-sub">
@@ -111,27 +132,23 @@
             </p>
 
             <div class="hero-ctas">
-                <a href="#projects" class="btn-primary nm-btn magnetic">
+                <a href="#projects" class="btn-primary nm-btn magnetic" data-cursor="explore">
                     <span>Смотреть проекты</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
-                <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost magnetic">
-                    <span>GitHub</span>
-                    <span class="btn-arr">↗</span>
+                <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost magnetic" data-cursor="GitHub">
+                    <span>GitHub</span><span class="btn-arr">↗</span>
                 </a>
             </div>
         </div>
 
         <div class="hero-scroll" aria-hidden="true">
-            <div class="hs-track">
-                <div class="hs-thumb"></div>
-            </div>
+            <div class="hs-track"><div class="hs-thumb"></div></div>
             <span class="mono">scroll</span>
         </div>
 
-        <!-- Big ghost text -->
         <div class="hero-ghost" aria-hidden="true">AI</div>
     </section>
 
@@ -163,58 +180,40 @@
         </div>
     </div>
 
-    <!-- ═══════ PROJECTS BENTO ═══════ -->
+    <!-- ═══════ PROJECTS ═══════ -->
     <section id="projects" aria-labelledby="proj-heading">
         <div class="section-head">
             <span class="section-tag mono">01 — Projects</span>
-            <h2 id="proj-heading" class="section-title">
-                GitHub<br>
-                <em class="gradient-text">Репозитории</em>
-            </h2>
+            <h2 id="proj-heading" class="section-title">GitHub<br><em class="gradient-text">Репозитории</em></h2>
         </div>
 
         <div class="bento-grid">
 
-            <!-- Card 1: NeuralChat (large) -->
-            <article class="bento-card bc-xl nm-card tilt-card" data-accent="blue" style="--accent: var(--blue)">
+            <article class="bento-card tilt-card nm-card" data-accent="blue" data-cursor="view ↗">
                 <div class="card-glow blue-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">AI Chat</span>
-                    <div class="card-stats">
-                        <span>★ 1.2k</span>
-                        <span>⑂ 340</span>
-                    </div>
+                    <div class="card-stats"><span>★ 1.2k</span><span>⑂ 340</span></div>
                 </div>
                 <h3 class="card-name">NeuralChat</h3>
-                <p class="card-desc">Многоагентный AI чат с долгосрочной памятью, поддержкой RAG и голосовым интерфейсом. Построен на Claude API с MCP интеграцией.</p>
-                <div class="card-chips">
-                    <span class="chip">Claude API</span>
-                    <span class="chip">React</span>
-                    <span class="chip">RAG</span>
-                    <span class="chip">MCP</span>
-                </div>
+                <p class="card-desc">Многоагентный AI-чат с долгосрочной памятью, поддержкой RAG и голосовым интерфейсом. Построен на Claude API с MCP-интеграцией.</p>
+                <div class="card-chips"><span class="chip">Claude API</span><span class="chip">React</span><span class="chip">RAG</span><span class="chip">MCP</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
             </article>
 
-            <!-- Card 2: VibeStudio (tall) -->
-            <article class="bento-card bc-tall nm-card tilt-card" data-accent="purple" style="--accent: var(--purple)">
+            <article class="bento-card tilt-card nm-card" data-accent="purple" data-cursor="view ↗">
                 <div class="card-glow purple-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Vibe IDE</span>
                     <div class="card-stats"><span>★ 876</span></div>
                 </div>
                 <h3 class="card-name">VibeStudio</h3>
-                <p class="card-desc">AI-powered вайбкодинг среда с автодополнением от нескольких моделей и live preview.</p>
-                <div class="card-chips">
-                    <span class="chip">CodeMirror</span>
-                    <span class="chip">Ollama</span>
-                    <span class="chip">WebSocket</span>
-                </div>
+                <p class="card-desc">AI-powered среда для вайбкодинга с автодополнением от нескольких моделей и live-preview.</p>
+                <div class="card-chips"><span class="chip">CodeMirror</span><span class="chip">Ollama</span><span class="chip">WebSocket</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
             </article>
 
-            <!-- Card 3: DreamPix (small) -->
-            <article class="bento-card bc-sm nm-card tilt-card" data-accent="green" style="--accent: var(--green)">
+            <article class="bento-card tilt-card nm-card" data-accent="green" data-cursor="view ↗">
                 <div class="card-glow green-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Vision AI</span>
@@ -222,15 +221,11 @@
                 </div>
                 <h3 class="card-name">DreamPix</h3>
                 <p class="card-desc">Генерация изображений с кастомными стилями и LoRA.</p>
-                <div class="card-chips">
-                    <span class="chip">ComfyUI</span>
-                    <span class="chip">SDXL</span>
-                </div>
+                <div class="card-chips"><span class="chip">ComfyUI</span><span class="chip">SDXL</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">↗</a>
             </article>
 
-            <!-- Card 4: VoiceFlow (small) -->
-            <article class="bento-card bc-sm nm-card tilt-card" data-accent="orange" style="--accent: var(--orange)">
+            <article class="bento-card tilt-card nm-card" data-accent="orange" data-cursor="view ↗">
                 <div class="card-glow orange-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Voice AI</span>
@@ -238,88 +233,55 @@
                 </div>
                 <h3 class="card-name">VoiceFlow</h3>
                 <p class="card-desc">Real-time AI голосовые пайплайны с транскрипцией.</p>
-                <div class="card-chips">
-                    <span class="chip">Whisper</span>
-                    <span class="chip">TTS</span>
-                </div>
+                <div class="card-chips"><span class="chip">Whisper</span><span class="chip">TTS</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">↗</a>
             </article>
 
-            <!-- Card 5: CodeWhisper (wide) -->
-            <article class="bento-card bc-wide nm-card tilt-card" data-accent="orange" style="--accent: var(--orange)">
+            <article class="bento-card tilt-card nm-card" data-accent="orange" data-cursor="view ↗">
                 <div class="card-glow orange-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Dev Tool</span>
-                    <div class="card-stats">
-                        <span>★ 2.1k</span>
-                        <span>⑂ 289</span>
-                    </div>
+                    <div class="card-stats"><span>★ 2.1k</span><span>⑂ 289</span></div>
                 </div>
                 <h3 class="card-name">CodeWhisper</h3>
-                <p class="card-desc">AI ассистент для 20+ языков с умным рефакторингом и автодокументацией прямо в редакторе.</p>
-                <div class="card-chips">
-                    <span class="chip">VS Code Extension</span>
-                    <span class="chip">LSP</span>
-                    <span class="chip">GPT-4</span>
-                    <span class="chip">TypeScript</span>
-                </div>
+                <p class="card-desc">AI-ассистент для 20+ языков с умным рефакторингом и автодокументацией прямо в редакторе.</p>
+                <div class="card-chips"><span class="chip">VS Code Ext</span><span class="chip">LSP</span><span class="chip">GPT-4</span><span class="chip">TypeScript</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
             </article>
 
-            <!-- Card 6: DataMind (wide) -->
-            <article class="bento-card bc-wide nm-card tilt-card" data-accent="blue" style="--accent: var(--blue)">
+            <article class="bento-card tilt-card nm-card" data-accent="blue" data-cursor="view ↗">
                 <div class="card-glow blue-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Analytics AI</span>
-                    <div class="card-stats">
-                        <span>★ 734</span>
-                        <span>⑂ 98</span>
-                    </div>
+                    <div class="card-stats"><span>★ 734</span><span>⑂ 98</span></div>
                 </div>
                 <h3 class="card-name">DataMind</h3>
                 <p class="card-desc">AI-аналитика данных с автоматической визуализацией и инсайтами на естественном языке.</p>
-                <div class="card-chips">
-                    <span class="chip">Pandas</span>
-                    <span class="chip">Plotly</span>
-                    <span class="chip">LLM Query</span>
-                </div>
+                <div class="card-chips"><span class="chip">Pandas</span><span class="chip">Plotly</span><span class="chip">LLM Query</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
             </article>
 
-            <!-- Card 7: PromptForge (wide-xl) -->
-            <article class="bento-card bc-wide-xl nm-card tilt-card" data-accent="purple" style="--accent: var(--purple)">
+            <article class="bento-card tilt-card nm-card" data-accent="purple" data-cursor="view ↗">
                 <div class="card-glow purple-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Prompts</span>
-                    <div class="card-stats">
-                        <span>★ 3.4k</span>
-                        <span>⑂ 567</span>
-                    </div>
+                    <div class="card-stats"><span>★ 3.4k</span><span>⑂ 567</span></div>
                 </div>
                 <h3 class="card-name">PromptForge</h3>
-                <p class="card-desc">Инструмент для разработки, тестирования и версионирования промптов с A/B тестами и метриками качества.</p>
-                <div class="card-chips">
-                    <span class="chip">Prompt Engineering</span>
-                    <span class="chip">A/B Testing</span>
-                    <span class="chip">Versioning</span>
-                    <span class="chip">Analytics</span>
-                </div>
+                <p class="card-desc">Инструмент для разработки, тестирования и версионирования промптов с A/B-тестами и метриками качества.</p>
+                <div class="card-chips"><span class="chip">Prompt Eng</span><span class="chip">A/B Testing</span><span class="chip">Versioning</span><span class="chip">Analytics</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
             </article>
 
-            <!-- Card 8: AgentSwarm (sm) -->
-            <article class="bento-card bc-sm nm-card tilt-card" data-accent="green" style="--accent: var(--green)">
+            <article class="bento-card tilt-card nm-card" data-accent="green" data-cursor="view ↗">
                 <div class="card-glow green-glow"></div>
                 <div class="card-top">
                     <span class="card-tag mono">Agents</span>
                     <div class="card-stats"><span>★ 891</span></div>
                 </div>
                 <h3 class="card-name">AgentSwarm</h3>
-                <p class="card-desc">Мультиагентная оркестрация через MCP протокол.</p>
-                <div class="card-chips">
-                    <span class="chip">MCP</span>
-                    <span class="chip">Multi-Agent</span>
-                </div>
+                <p class="card-desc">Мультиагентная оркестрация через MCP-протокол.</p>
+                <div class="card-chips"><span class="chip">MCP</span><span class="chip">Multi-Agent</span></div>
                 <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">↗</a>
             </article>
 
@@ -338,30 +300,19 @@
                     <span class="vt-line gradient-text">интуитивно</span>
                     <span class="vt-line">с&nbsp;помощью AI</span>
                 </h2>
-                <p class="vibe-desc">
-                    Вайбкодинг — это новый способ разработки, где ИИ пишет код, а вы задаёте направление. Не нужно знать синтаксис — достаточно идеи и намерения.
-                </p>
+                <p class="vibe-desc">Вайбкодинг — это новый способ разработки, где ИИ пишет код, а вы задаёте направление. Не нужно знать синтаксис — достаточно идеи и намерения.</p>
                 <div class="vibe-feats">
                     <div class="vibe-feat nm-card">
-                        <span class="feat-icon">⚡</span>
-                        <div class="feat-text">
-                            <h4>AI-First Development</h4>
-                            <p>ИИ пишет, вы направляете</p>
-                        </div>
+                        <span class="feat-icon" aria-hidden="true">⚡</span>
+                        <div class="feat-text"><h4>AI-First Development</h4><p>ИИ пишет, вы направляете</p></div>
                     </div>
                     <div class="vibe-feat nm-card">
-                        <span class="feat-icon">◈</span>
-                        <div class="feat-text">
-                            <h4>Zero Boilerplate</h4>
-                            <p>Только смысл, без шаблонов</p>
-                        </div>
+                        <span class="feat-icon" aria-hidden="true">◈</span>
+                        <div class="feat-text"><h4>Zero Boilerplate</h4><p>Только смысл, без шаблонов</p></div>
                     </div>
                     <div class="vibe-feat nm-card">
-                        <span class="feat-icon">∞</span>
-                        <div class="feat-text">
-                            <h4>Iterate Fast</h4>
-                            <p>Идея → рабочий код за секунды</p>
-                        </div>
+                        <span class="feat-icon" aria-hidden="true">∞</span>
+                        <div class="feat-text"><h4>Iterate Fast</h4><p>Идея → рабочий код за секунды</p></div>
                     </div>
                 </div>
             </div>
@@ -369,16 +320,13 @@
             <div class="vibe-right">
                 <div class="code-panel nm-card" role="region" aria-label="Демонстрация вайбкодинга">
                     <div class="code-bar">
-                        <div class="code-dots" aria-hidden="true">
-                            <span class="cd cd-r"></span>
-                            <span class="cd cd-y"></span>
-                            <span class="cd cd-g"></span>
-                        </div>
+                        <div class="code-dots" aria-hidden="true"><span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span></div>
                         <span class="code-title mono">vibe.ai — live</span>
                         <span class="code-badge mono">● RUN</span>
                     </div>
                     <div class="code-body">
-                        <pre aria-label="Пример вайбкодинга"><code id="typing-code"></code><span class="code-cursor" aria-hidden="true"></span></pre>
+                        <div class="code-gutter mono" aria-hidden="true"></div>
+                        <pre aria-label="Пример кода вайбкодинга"><code id="typing-code"></code><span class="code-cursor" aria-hidden="true"></span></pre>
                     </div>
                     <div class="code-footer mono">
                         <span class="cf-ok">✓ Generated in 2.4s</span>
@@ -393,53 +341,18 @@
     <section id="stack" aria-labelledby="stack-heading">
         <div class="section-head centered">
             <span class="section-tag mono">03 — Tech Stack</span>
-            <h2 id="stack-heading" class="section-title">
-                Технологии<br>
-                <em class="gradient-text">&amp; Инструменты</em>
-            </h2>
+            <h2 id="stack-heading" class="section-title">Технологии<br><em class="gradient-text">&amp; Инструменты</em></h2>
         </div>
 
         <div class="stack-grid">
-            <div class="stack-blob nm-card sb-1" aria-label="Claude API от Anthropic">
-                <div class="sb-icon">🤖</div>
-                <div class="sb-name">Claude API</div>
-                <div class="sb-sub mono">Anthropic</div>
-            </div>
-            <div class="stack-blob nm-card sb-2" aria-label="LangChain для оркестрации">
-                <div class="sb-icon">⚡</div>
-                <div class="sb-name">LangChain</div>
-                <div class="sb-sub mono">Orchestration</div>
-            </div>
-            <div class="stack-blob nm-card sb-3" aria-label="Vector Database">
-                <div class="sb-icon">◎</div>
-                <div class="sb-name">Vector DB</div>
-                <div class="sb-sub mono">Pinecone · Weaviate</div>
-            </div>
-            <div class="stack-blob nm-card sb-4" aria-label="OpenAI Whisper для речи">
-                <div class="sb-icon">∿</div>
-                <div class="sb-name">Whisper</div>
-                <div class="sb-sub mono">Speech AI</div>
-            </div>
-            <div class="stack-blob nm-card sb-5" aria-label="React для фронтенда">
-                <div class="sb-icon">▣</div>
-                <div class="sb-name">React</div>
-                <div class="sb-sub mono">Frontend</div>
-            </div>
-            <div class="stack-blob nm-card sb-6" aria-label="MCP Protocol от Anthropic">
-                <div class="sb-icon">◈</div>
-                <div class="sb-name">MCP</div>
-                <div class="sb-sub mono">Anthropic Protocol</div>
-            </div>
-            <div class="stack-blob nm-card sb-7" aria-label="Python для бэкенда">
-                <div class="sb-icon">⬡</div>
-                <div class="sb-name">Python</div>
-                <div class="sb-sub mono">Backend</div>
-            </div>
-            <div class="stack-blob nm-card sb-8" aria-label="Next.js fullstack">
-                <div class="sb-icon">↑</div>
-                <div class="sb-name">Next.js</div>
-                <div class="sb-sub mono">Full Stack</div>
-            </div>
+            <div class="stack-blob nm-card sb-1" aria-label="Claude API от Anthropic"><div class="sb-icon" aria-hidden="true">🤖</div><div class="sb-name">Claude API</div><div class="sb-sub mono">Anthropic</div></div>
+            <div class="stack-blob nm-card sb-2" aria-label="LangChain"><div class="sb-icon" aria-hidden="true">⚡</div><div class="sb-name">LangChain</div><div class="sb-sub mono">Orchestration</div></div>
+            <div class="stack-blob nm-card sb-3" aria-label="Vector Database"><div class="sb-icon" aria-hidden="true">◎</div><div class="sb-name">Vector DB</div><div class="sb-sub mono">Pinecone · Weaviate</div></div>
+            <div class="stack-blob nm-card sb-4" aria-label="Whisper"><div class="sb-icon" aria-hidden="true">∿</div><div class="sb-name">Whisper</div><div class="sb-sub mono">Speech AI</div></div>
+            <div class="stack-blob nm-card sb-5" aria-label="React"><div class="sb-icon" aria-hidden="true">▣</div><div class="sb-name">React</div><div class="sb-sub mono">Frontend</div></div>
+            <div class="stack-blob nm-card sb-6" aria-label="MCP Protocol"><div class="sb-icon" aria-hidden="true">◈</div><div class="sb-name">MCP</div><div class="sb-sub mono">Anthropic Protocol</div></div>
+            <div class="stack-blob nm-card sb-7" aria-label="Python"><div class="sb-icon" aria-hidden="true">⬡</div><div class="sb-name">Python</div><div class="sb-sub mono">Backend</div></div>
+            <div class="stack-blob nm-card sb-8" aria-label="Next.js"><div class="sb-icon" aria-hidden="true">↑</div><div class="sb-name">Next.js</div><div class="sb-sub mono">Full Stack</div></div>
         </div>
     </section>
 
@@ -469,61 +382,41 @@
 
         <div class="connect-content">
             <span class="section-tag mono">04 — Connect</span>
-
             <h2 id="connect-heading" class="connect-title">
                 <span class="ct-line">Готов к</span>
                 <span class="ct-line gradient-text">сотрудничеству</span>
             </h2>
-
-            <p class="connect-sub">
-                Открыт для интересных проектов, коллабораций и новых идей в области AI-разработки
-            </p>
+            <p class="connect-sub">Открыт для интересных проектов, коллабораций и новых идей в области AI-разработки</p>
 
             <div class="connect-cards">
-                <a href="https://github.com" target="_blank" rel="noopener" class="cc-item nm-card magnetic">
-                    <div class="cc-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-                        </svg>
+                <a href="https://github.com" target="_blank" rel="noopener" class="cc-item nm-card magnetic" data-cursor="open ↗">
+                    <div class="cc-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
                     </div>
-                    <div class="cc-text">
-                        <span class="cc-name">GitHub</span>
-                        <span class="cc-sub mono">Все репозитории</span>
-                    </div>
-                    <span class="cc-arr">↗</span>
+                    <div class="cc-text"><span class="cc-name">GitHub</span><span class="cc-sub mono">Все репозитории</span></div>
+                    <span class="cc-arr" aria-hidden="true">↗</span>
                 </a>
-                <a href="mailto:hello@aiprojects.dev" class="cc-item nm-card magnetic">
-                    <div class="cc-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
-                        </svg>
+                <a href="mailto:hello@aiprojects.dev" class="cc-item nm-card magnetic" data-cursor="write">
+                    <div class="cc-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
                     </div>
-                    <div class="cc-text">
-                        <span class="cc-name">Email</span>
-                        <span class="cc-sub mono">hello@aiprojects.dev</span>
-                    </div>
-                    <span class="cc-arr">↗</span>
+                    <div class="cc-text"><span class="cc-name">Email</span><span class="cc-sub mono">hello@aiprojects.dev</span></div>
+                    <span class="cc-arr" aria-hidden="true">↗</span>
                 </a>
-                <a href="https://t.me" target="_blank" rel="noopener" class="cc-item nm-card magnetic">
-                    <div class="cc-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                        </svg>
+                <a href="https://t.me" target="_blank" rel="noopener" class="cc-item nm-card magnetic" data-cursor="chat">
+                    <div class="cc-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                     </div>
-                    <div class="cc-text">
-                        <span class="cc-name">Telegram</span>
-                        <span class="cc-sub mono">Для быстрой связи</span>
-                    </div>
-                    <span class="cc-arr">↗</span>
+                    <div class="cc-text"><span class="cc-name">Telegram</span><span class="cc-sub mono">Для быстрой связи</span></div>
+                    <span class="cc-arr" aria-hidden="true">↗</span>
                 </a>
             </div>
         </div>
 
-        <!-- Big CTA -->
-        <div class="big-cta" aria-hidden="false">
-            <a href="https://github.com" target="_blank" rel="noopener" class="bca-link">
+        <div class="big-cta">
+            <a href="https://github.com" target="_blank" rel="noopener" class="bca-link" data-cursor="star ★">
                 <span class="bca-text">Star on GitHub</span>
-                <span class="bca-arr">→</span>
+                <span class="bca-arr" aria-hidden="true">→</span>
             </a>
         </div>
     </section>
@@ -536,9 +429,7 @@
                 <p class="footer-tag mono">Built with Claude × Vibe Coding</p>
             </div>
             <div class="footer-r mono">
-                <span>2025</span>
-                <span>Open Source</span>
-                <span>MIT License</span>
+                <span>2025</span><span>Open Source</span><span>MIT License</span>
             </div>
         </div>
         <div class="footer-ghost" aria-hidden="true">AI</div>
