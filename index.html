@@ -1,461 +1,550 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PANORAMA — Authentisches griechisches Restaurant seit 1982 in Hamburg Bergedorf. Grachtenplatz 11, 21035 Hamburg. Griechische Küche, Events, Reservierung.">
-    <meta name="keywords" content="griechisches restaurant hamburg, panorama bergedorf, griechische küche, neuallermöhe restaurant">
-    <meta property="og:title" content="PANORAMA — Griechisches Restaurant Hamburg Bergedorf">
-    <meta property="og:description" content="Original griechische Küche seit 1982. Grachtenplatz 11, Hamburg Bergedorf.">
-    <meta property="og:type" content="restaurant">
-    <title>PANORAMA — Griechisches Restaurant · Hamburg Bergedorf · Seit 1982</title>
-
+    <meta name="description" content="AI Projects Portfolio — открытые проекты на GitHub для AI-приложений, вайбкодинга и работы с ИИ">
+    <title>AI.Portfolio — GitHub Projects · Vibe Coding · AI Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- PRELOADER -->
-    <div id="preloader" aria-hidden="true">
-        <div class="preloader-word">
-            <span class="pl">P</span><span class="pl">A</span><span class="pl">N</span><span class="pl">O</span><span class="pl">R</span><span class="pl">A</span><span class="pl">M</span><span class="pl">A</span>
-        </div>
-        <div class="preloader-sub mono-text">Griechisches Restaurant · Hamburg · 1982</div>
+    <!-- CURSOR -->
+    <div class="cursor-wrap" aria-hidden="true">
+        <div class="cursor-dot"></div>
+        <div class="cursor-ring"></div>
     </div>
 
-    <!-- CUSTOM CURSOR -->
-    <div class="cursor" aria-hidden="true"></div>
-    <div class="cursor-ring" aria-hidden="true"></div>
+    <!-- PRELOADER -->
+    <div id="preloader" aria-hidden="true">
+        <div class="pl-orb-ring"></div>
+        <div class="pl-core">
+            <span class="pl-letter">A</span>
+            <span class="pl-letter">I</span>
+        </div>
+        <span class="pl-sub mono">initializing_</span>
+    </div>
 
-    <!-- NAVIGATION -->
-    <nav id="nav" role="navigation" aria-label="Hauptnavigation">
-        <a href="#hero" class="nav-logo" aria-label="PANORAMA Startseite">PANORAMA</a>
+    <!-- NAV -->
+    <nav id="nav" role="navigation">
+        <a href="#hero" class="nav-logo">
+            <span class="logo-gem">◈</span>
+            <span>AI<span class="logo-sep">.</span>Portfolio</span>
+        </a>
         <ul class="nav-links" role="list">
-            <li><a href="#about">Geschichte</a></li>
-            <li><a href="#menu">Speisekarte</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#contact">Kontakt</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#vibe">Vibe</a></li>
+            <li><a href="#stack">Stack</a></li>
+            <li><a href="#connect">Connect</a></li>
         </ul>
-        <a href="#contact" class="nav-cta">RESERVIEREN</a>
-        <button class="nav-burger" aria-label="Menü öffnen" aria-expanded="false">
+        <a href="https://github.com" target="_blank" rel="noopener" class="nav-gh nm-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span>GitHub</span>
+        </a>
+        <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false">
             <span></span><span></span>
         </button>
     </nav>
 
     <!-- MOBILE MENU -->
-    <div class="mobile-menu" role="dialog" aria-label="Mobilmenü" aria-hidden="true">
-        <div class="mobile-menu-inner">
-            <a href="#about" class="mobile-link">Geschichte</a>
-            <a href="#menu" class="mobile-link">Speisekarte</a>
-            <a href="#events" class="mobile-link">Events</a>
-            <a href="#contact" class="mobile-link">Kontakt</a>
-        </div>
-        <div class="mobile-menu-footer">
-            <span class="mono-text">Grachtenplatz 11 · 21035 Hamburg</span>
-            <a href="mailto:info@panorama-bergedorf.de" class="mono-text">info@panorama-bergedorf.de</a>
+    <div class="mobile-menu" role="dialog" aria-label="Меню" aria-hidden="true">
+        <div class="mm-links">
+            <a href="#projects" class="mm-link">Projects</a>
+            <a href="#vibe" class="mm-link">Vibe Coding</a>
+            <a href="#stack" class="mm-link">Tech Stack</a>
+            <a href="#connect" class="mm-link">Connect</a>
         </div>
     </div>
 
-    <!-- ═══════════════════ HERO ═══════════════════ -->
+    <!-- ═══════ HERO ═══════ -->
     <section id="hero" aria-label="Hero">
-        <div class="hero-bg-greek" aria-hidden="true">ΕΛΛΆΔΑ</div>
+        <!-- Ambient background blobs -->
+        <div class="hero-blobs" aria-hidden="true">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+
+        <!-- Floating info cards -->
+        <div class="hero-floats" aria-hidden="true">
+            <div class="float-card fc-1 nm-card">
+                <span class="fc-label mono">model</span>
+                <span class="fc-value">claude-opus-4</span>
+            </div>
+            <div class="float-card fc-2 nm-card">
+                <span class="fc-label mono">context</span>
+                <span class="fc-value"><span class="cnt-val" data-target="200">0</span>k tokens</span>
+            </div>
+            <div class="float-card fc-3 nm-card">
+                <span class="fc-pulse"></span>
+                <span class="fc-status mono">vibe_active</span>
+            </div>
+        </div>
 
         <div class="hero-content">
-            <div class="hero-eyebrow">
-                <div class="eyebrow-line"></div>
-                <span class="mono-text">Griechisches Restaurant</span>
-                <div class="eyebrow-line"></div>
+            <div class="hero-badge nm-pill">
+                <span class="badge-dot"></span>
+                <span class="mono">AI × Vibe Coding × GitHub</span>
             </div>
 
-            <h1 class="hero-title" aria-label="Panorama">
-                <span class="hl">P</span><span class="hl">A</span><span class="hl">N</span><span class="hl">O</span><span class="hl">R</span><span class="hl">A</span><span class="hl">M</span><span class="hl">A</span>
+            <h1 class="hero-title">
+                <span class="ht-row">
+                    <span class="ht-w">Build</span>
+                    <span class="ht-w">with</span>
+                </span>
+                <span class="ht-row gradient-row">
+                    <span class="ht-w gradient-text">Artificial</span>
+                </span>
+                <span class="ht-row">
+                    <span class="ht-w">Intelligence</span>
+                </span>
             </h1>
 
-            <div class="hero-meta">
-                <div class="hero-meta-left">
-                    <span class="mono-text">Bergedorf · Hamburg</span>
-                    <span class="hero-year">1982</span>
-                </div>
-                <p class="hero-desc">
-                    Authentische griechische Küche<br>
-                    am Grachtenplatz · Neuallermöhe
-                </p>
+            <p class="hero-sub">
+                Открытые проекты на GitHub — от AI-приложений<br class="br-desk">
+                до инструментов вайбкодинга и экспериментов с ИИ
+            </p>
+
+            <div class="hero-ctas">
+                <a href="#projects" class="btn-primary nm-btn magnetic">
+                    <span>Смотреть проекты</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost magnetic">
+                    <span>GitHub</span>
+                    <span class="btn-arr">↗</span>
+                </a>
             </div>
         </div>
 
         <div class="hero-scroll" aria-hidden="true">
-            <div class="scroll-track">
-                <div class="scroll-thumb"></div>
+            <div class="hs-track">
+                <div class="hs-thumb"></div>
             </div>
-            <span class="mono-text">SCROLL</span>
+            <span class="mono">scroll</span>
         </div>
 
-        <!-- Geometric decorative element -->
-        <svg class="hero-deco" viewBox="0 0 120 120" aria-hidden="true">
-            <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(200,169,110,0.12)" stroke-width="0.5"/>
-            <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(200,169,110,0.08)" stroke-width="0.5"/>
-            <line x1="5" y1="60" x2="115" y2="60" stroke="rgba(200,169,110,0.06)" stroke-width="0.5"/>
-            <line x1="60" y1="5" x2="60" y2="115" stroke="rgba(200,169,110,0.06)" stroke-width="0.5"/>
-        </svg>
+        <!-- Big ghost text -->
+        <div class="hero-ghost" aria-hidden="true">AI</div>
     </section>
 
-    <!-- ═══════════════════ MARQUEE ═══════════════════ -->
-    <div class="marquee-strip" aria-hidden="true">
-        <div class="marquee-track">
-            <div class="marquee-inner">
-                <span>ORIGINAL GRIECHISCH</span><span class="dot">◆</span>
-                <span>SEIT 1982</span><span class="dot">◆</span>
-                <span>HAMBURG BERGEDORF</span><span class="dot">◆</span>
-                <span>GRACHTENPLATZ 11</span><span class="dot">◆</span>
-                <span>GRIECHISCHE KÜCHE</span><span class="dot">◆</span>
-                <span>ΕΛΛΗΝΙΚΉ ΚΟΥΖΊΝΑ</span><span class="dot">◆</span>
-                <span>ORIGINAL GRIECHISCH</span><span class="dot">◆</span>
-                <span>SEIT 1982</span><span class="dot">◆</span>
-                <span>HAMBURG BERGEDORF</span><span class="dot">◆</span>
-                <span>GRACHTENPLATZ 11</span><span class="dot">◆</span>
-                <span>GRIECHISCHE KÜCHE</span><span class="dot">◆</span>
-                <span>ΕΛΛΗΝΙΚΉ ΚΟΥΖΊΝΑ</span><span class="dot">◆</span>
+    <!-- ═══════ MARQUEE ═══════ -->
+    <div class="marquee-wrap" aria-hidden="true">
+        <div class="marquee-inner">
+            <div class="marquee-track">
+                <span>Claude API</span><span class="msep">◆</span>
+                <span>Vibe Coding</span><span class="msep">◆</span>
+                <span>LangChain</span><span class="msep">◆</span>
+                <span>RAG</span><span class="msep">◆</span>
+                <span>Vector DB</span><span class="msep">◆</span>
+                <span>MCP Protocol</span><span class="msep">◆</span>
+                <span>Multi-Agent</span><span class="msep">◆</span>
+                <span>Open Source</span><span class="msep">◆</span>
+                <span>GPT-4</span><span class="msep">◆</span>
+                <span>GitHub</span><span class="msep">◆</span>
+                <span>Claude API</span><span class="msep">◆</span>
+                <span>Vibe Coding</span><span class="msep">◆</span>
+                <span>LangChain</span><span class="msep">◆</span>
+                <span>RAG</span><span class="msep">◆</span>
+                <span>Vector DB</span><span class="msep">◆</span>
+                <span>MCP Protocol</span><span class="msep">◆</span>
+                <span>Multi-Agent</span><span class="msep">◆</span>
+                <span>Open Source</span><span class="msep">◆</span>
+                <span>GPT-4</span><span class="msep">◆</span>
+                <span>GitHub</span><span class="msep">◆</span>
             </div>
         </div>
     </div>
 
-    <!-- ═══════════════════ ABOUT ═══════════════════ -->
-    <section id="about" aria-labelledby="about-heading">
-        <div class="bg-number" aria-hidden="true">1982</div>
-
-        <div class="section-intro">
-            <span class="section-tag mono-text">01 — Geschichte</span>
+    <!-- ═══════ PROJECTS BENTO ═══════ -->
+    <section id="projects" aria-labelledby="proj-heading">
+        <div class="section-head">
+            <span class="section-tag mono">01 — Projects</span>
+            <h2 id="proj-heading" class="section-title">
+                GitHub<br>
+                <em class="gradient-text">Репозитории</em>
+            </h2>
         </div>
 
-        <h2 id="about-heading" class="about-title">
-            <span class="about-line">Seit über vier</span>
-            <span class="about-line italic gold">Jahrzehnten</span>
-            <span class="about-line">am Puls der</span>
-            <span class="about-line italic gold">Ägäis</span>
-        </h2>
+        <div class="bento-grid">
 
-        <div class="about-grid">
-            <div class="about-text">
-                <p>Das PANORAMA Restaurant öffnete 1982 seine Türen in Hamburg Bergedorf — mit einer Vision: die authentischen Aromen Griechenlands direkt nach Hamburg zu bringen.</p>
-                <p>Unser einzigartiger Rundbau mit großer Panoramafensterfront direkt am Grachtenplatz bietet einen weiten Blick über das Wasser der Neuallermoher Kanäle — wie ein Panorama über die Ägäis.</p>
-                <p>Seit April 2019 verbinden wir ein modernes Ambiente mit der tiefen Tradition und Authentizität der griechischen Küche. Holzkohlegrill, frische Zutaten, echte Gastfreundschaft.</p>
-                <a href="#menu" class="text-link">Speisekarte entdecken <span>→</span></a>
-            </div>
+            <!-- Card 1: NeuralChat (large) -->
+            <article class="bento-card bc-xl nm-card tilt-card" data-accent="blue" style="--accent: var(--blue)">
+                <div class="card-glow blue-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">AI Chat</span>
+                    <div class="card-stats">
+                        <span>★ 1.2k</span>
+                        <span>⑂ 340</span>
+                    </div>
+                </div>
+                <h3 class="card-name">NeuralChat</h3>
+                <p class="card-desc">Многоагентный AI чат с долгосрочной памятью, поддержкой RAG и голосовым интерфейсом. Построен на Claude API с MCP интеграцией.</p>
+                <div class="card-chips">
+                    <span class="chip">Claude API</span>
+                    <span class="chip">React</span>
+                    <span class="chip">RAG</span>
+                    <span class="chip">MCP</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
+            </article>
 
-            <div class="about-quote-block">
-                <blockquote>
-                    "Ein Ort, an dem<br>
-                    Hamburg für einen<br>
-                    Moment <em>Griechenland</em><br>
-                    vergisst."
-                </blockquote>
-            </div>
-        </div>
+            <!-- Card 2: VibeStudio (tall) -->
+            <article class="bento-card bc-tall nm-card tilt-card" data-accent="purple" style="--accent: var(--purple)">
+                <div class="card-glow purple-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Vibe IDE</span>
+                    <div class="card-stats"><span>★ 876</span></div>
+                </div>
+                <h3 class="card-name">VibeStudio</h3>
+                <p class="card-desc">AI-powered вайбкодинг среда с автодополнением от нескольких моделей и live preview.</p>
+                <div class="card-chips">
+                    <span class="chip">CodeMirror</span>
+                    <span class="chip">Ollama</span>
+                    <span class="chip">WebSocket</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
+            </article>
 
-        <div class="about-stats">
-            <div class="stat">
-                <span class="stat-n" data-target="42">0</span>
-                <span class="stat-l mono-text">Jahre Tradition</span>
-            </div>
-            <div class="stat-div"></div>
-            <div class="stat">
-                <span class="stat-n" data-target="80">0</span>
-                <span class="stat-l mono-text">Sitzplätze</span>
-            </div>
-            <div class="stat-div"></div>
-            <div class="stat">
-                <span class="stat-n" data-target="60">0</span>
-                <span class="stat-l mono-text">Gerichte</span>
-            </div>
-            <div class="stat-div"></div>
-            <div class="stat">
-                <span class="stat-n" data-target="1">0</span>
-                <span class="stat-l mono-text">Einzigartiger Blick</span>
-            </div>
+            <!-- Card 3: DreamPix (small) -->
+            <article class="bento-card bc-sm nm-card tilt-card" data-accent="green" style="--accent: var(--green)">
+                <div class="card-glow green-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Vision AI</span>
+                    <div class="card-stats"><span>★ 543</span></div>
+                </div>
+                <h3 class="card-name">DreamPix</h3>
+                <p class="card-desc">Генерация изображений с кастомными стилями и LoRA.</p>
+                <div class="card-chips">
+                    <span class="chip">ComfyUI</span>
+                    <span class="chip">SDXL</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">↗</a>
+            </article>
+
+            <!-- Card 4: VoiceFlow (small) -->
+            <article class="bento-card bc-sm nm-card tilt-card" data-accent="orange" style="--accent: var(--orange)">
+                <div class="card-glow orange-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Voice AI</span>
+                    <div class="card-stats"><span>★ 412</span></div>
+                </div>
+                <h3 class="card-name">VoiceFlow</h3>
+                <p class="card-desc">Real-time AI голосовые пайплайны с транскрипцией.</p>
+                <div class="card-chips">
+                    <span class="chip">Whisper</span>
+                    <span class="chip">TTS</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">↗</a>
+            </article>
+
+            <!-- Card 5: CodeWhisper (wide) -->
+            <article class="bento-card bc-wide nm-card tilt-card" data-accent="orange" style="--accent: var(--orange)">
+                <div class="card-glow orange-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Dev Tool</span>
+                    <div class="card-stats">
+                        <span>★ 2.1k</span>
+                        <span>⑂ 289</span>
+                    </div>
+                </div>
+                <h3 class="card-name">CodeWhisper</h3>
+                <p class="card-desc">AI ассистент для 20+ языков с умным рефакторингом и автодокументацией прямо в редакторе.</p>
+                <div class="card-chips">
+                    <span class="chip">VS Code Extension</span>
+                    <span class="chip">LSP</span>
+                    <span class="chip">GPT-4</span>
+                    <span class="chip">TypeScript</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
+            </article>
+
+            <!-- Card 6: DataMind (wide) -->
+            <article class="bento-card bc-wide nm-card tilt-card" data-accent="blue" style="--accent: var(--blue)">
+                <div class="card-glow blue-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Analytics AI</span>
+                    <div class="card-stats">
+                        <span>★ 734</span>
+                        <span>⑂ 98</span>
+                    </div>
+                </div>
+                <h3 class="card-name">DataMind</h3>
+                <p class="card-desc">AI-аналитика данных с автоматической визуализацией и инсайтами на естественном языке.</p>
+                <div class="card-chips">
+                    <span class="chip">Pandas</span>
+                    <span class="chip">Plotly</span>
+                    <span class="chip">LLM Query</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
+            </article>
+
+            <!-- Card 7: PromptForge (wide-xl) -->
+            <article class="bento-card bc-wide-xl nm-card tilt-card" data-accent="purple" style="--accent: var(--purple)">
+                <div class="card-glow purple-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Prompts</span>
+                    <div class="card-stats">
+                        <span>★ 3.4k</span>
+                        <span>⑂ 567</span>
+                    </div>
+                </div>
+                <h3 class="card-name">PromptForge</h3>
+                <p class="card-desc">Инструмент для разработки, тестирования и версионирования промптов с A/B тестами и метриками качества.</p>
+                <div class="card-chips">
+                    <span class="chip">Prompt Engineering</span>
+                    <span class="chip">A/B Testing</span>
+                    <span class="chip">Versioning</span>
+                    <span class="chip">Analytics</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">view repo ↗</a>
+            </article>
+
+            <!-- Card 8: AgentSwarm (sm) -->
+            <article class="bento-card bc-sm nm-card tilt-card" data-accent="green" style="--accent: var(--green)">
+                <div class="card-glow green-glow"></div>
+                <div class="card-top">
+                    <span class="card-tag mono">Agents</span>
+                    <div class="card-stats"><span>★ 891</span></div>
+                </div>
+                <h3 class="card-name">AgentSwarm</h3>
+                <p class="card-desc">Мультиагентная оркестрация через MCP протокол.</p>
+                <div class="card-chips">
+                    <span class="chip">MCP</span>
+                    <span class="chip">Multi-Agent</span>
+                </div>
+                <a href="https://github.com" target="_blank" rel="noopener" class="card-link nm-pill mono">↗</a>
+            </article>
+
         </div>
     </section>
 
-    <!-- ═══════════════════ PHILOSOPHY ═══════════════════ -->
-    <section id="philosophy" aria-label="Philosophie">
-        <div class="section-intro">
-            <span class="section-tag mono-text">02 — Philosophie</span>
-        </div>
-        <div class="big-quote">
-            <div class="bq-line">Essen</div>
-            <div class="bq-line indent italic gold">ist Erinnerung,</div>
-            <div class="bq-line">Heimweh</div>
-            <div class="bq-line indent italic gold">und Liebe</div>
-            <div class="bq-line">auf einem Teller.</div>
-        </div>
-        <div class="phil-divider" aria-hidden="true">
-            <svg viewBox="0 0 600 24" xmlns="http://www.w3.org/2000/svg">
-                <line x1="0" y1="12" x2="240" y2="12" stroke="rgba(200,169,110,0.25)" stroke-width="0.5"/>
-                <g transform="translate(270,12)">
-                    <circle r="8" fill="none" stroke="rgba(200,169,110,0.5)" stroke-width="0.5"/>
-                    <circle r="3" fill="rgba(200,169,110,0.3)"/>
-                </g>
-                <line x1="310" y1="12" x2="600" y2="12" stroke="rgba(200,169,110,0.25)" stroke-width="0.5"/>
-                <text x="300" y="22" text-anchor="middle" fill="rgba(200,169,110,0.4)" font-family="Space Mono" font-size="6" letter-spacing="4">PANORAMA</text>
-            </svg>
-        </div>
-    </section>
+    <!-- ═══════ VIBE CODING ═══════ -->
+    <section id="vibe" aria-labelledby="vibe-heading">
+        <div class="vibe-bg-blob" aria-hidden="true"></div>
 
-    <!-- ═══════════════════ MENU ═══════════════════ -->
-    <section id="menu" aria-labelledby="menu-heading">
-        <div class="section-intro">
-            <span class="section-tag mono-text">03 — Speisekarte</span>
-        </div>
-
-        <h2 id="menu-heading" class="menu-display-title">
-            <span class="mdt-1">SPEISE</span>
-            <span class="mdt-2 italic">KARTE</span>
-        </h2>
-
-        <div class="menu-grid">
-
-            <div class="menu-cat">
-                <div class="cat-head">
-                    <span class="cat-num mono-text">01</span>
-                    <h3 class="cat-name">MEZE</h3>
-                    <span class="cat-sub">Griechische Vorspeisen</span>
-                </div>
-                <ul class="dish-list" role="list">
-                    <li class="dish"><span class="dish-name">Tzatziki</span><span class="dish-dots"></span><span class="dish-price">4,50 €</span></li>
-                    <li class="dish"><span class="dish-name">Taramosalata</span><span class="dish-dots"></span><span class="dish-price">4,50 €</span></li>
-                    <li class="dish"><span class="dish-name">Melitzanosalata</span><span class="dish-dots"></span><span class="dish-price">4,50 €</span></li>
-                    <li class="dish"><span class="dish-name">Hummus</span><span class="dish-dots"></span><span class="dish-price">4,50 €</span></li>
-                    <li class="dish"><span class="dish-name">Gemischte Dips mit Pita</span><span class="dish-dots"></span><span class="dish-price">9,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Ouzo Platte</span><span class="dish-dots"></span><span class="dish-price">14,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Bauernsalat (Horiatiki)</span><span class="dish-dots"></span><span class="dish-price">9,90 €</span></li>
-                </ul>
-            </div>
-
-            <div class="menu-cat">
-                <div class="cat-head">
-                    <span class="cat-num mono-text">02</span>
-                    <h3 class="cat-name">GRILL</h3>
-                    <span class="cat-sub">Vom Holzkohlegrill</span>
-                </div>
-                <ul class="dish-list" role="list">
-                    <li class="dish"><span class="dish-name">Chicken Souvlaki</span><span class="dish-dots"></span><span class="dish-price">16,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Gyros vom Schwein</span><span class="dish-dots"></span><span class="dish-price">15,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Gyrosburger</span><span class="dish-dots"></span><span class="dish-price">13,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Lammfilet (Neuseeland)</span><span class="dish-dots"></span><span class="dish-price">26,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Argentinisches Rindersteak</span><span class="dish-dots"></span><span class="dish-price">28,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Gemischter Fleischteller</span><span class="dish-dots"></span><span class="dish-price">22,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Bifteki vom Grill</span><span class="dish-dots"></span><span class="dish-price">17,90 €</span></li>
-                </ul>
-            </div>
-
-            <div class="menu-cat">
-                <div class="cat-head">
-                    <span class="cat-num mono-text">03</span>
-                    <h3 class="cat-name">FISCH</h3>
-                    <span class="cat-sub">Frisch aus der Ägäis</span>
-                </div>
-                <ul class="dish-list" role="list">
-                    <li class="dish"><span class="dish-name">Gegrillter Wolfsbarsch</span><span class="dish-dots"></span><span class="dish-price">27,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Dorade nach griech. Art</span><span class="dish-dots"></span><span class="dish-price">25,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Tintenfisch gegrillt</span><span class="dish-dots"></span><span class="dish-price">18,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Garnelen — griechische Art</span><span class="dish-dots"></span><span class="dish-price">22,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Kabeljau im Ofen</span><span class="dish-dots"></span><span class="dish-price">20,90 €</span></li>
-                </ul>
-            </div>
-
-            <div class="menu-cat">
-                <div class="cat-head">
-                    <span class="cat-num mono-text">04</span>
-                    <h3 class="cat-name">VEGETARISCH</h3>
-                    <span class="cat-sub">Aus dem Garten Griechenlands</span>
-                </div>
-                <ul class="dish-list" role="list">
-                    <li class="dish"><span class="dish-name">Moussaka (vegetarisch)</span><span class="dish-dots"></span><span class="dish-price">15,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Gemista — Gefüllte Paprika</span><span class="dish-dots"></span><span class="dish-price">14,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Spanakopita</span><span class="dish-dots"></span><span class="dish-price">13,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Halloumi vom Grill</span><span class="dish-dots"></span><span class="dish-price">12,90 €</span></li>
-                    <li class="dish"><span class="dish-name">Revithia (Kichererbsen-Eintopf)</span><span class="dish-dots"></span><span class="dish-price">13,90 €</span></li>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="menu-note">
-            <div class="menu-note-inner">
-                <span class="mono-text">Vollständige Speisekarte inkl. Desserts, Weine & Getränke auf Anfrage</span>
-                <a href="mailto:info@panorama-bergedorf.de" class="btn-line">Speisekarte anfragen</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════ ATMOSPHERE ═══════════════════ -->
-    <section id="atmosphere" aria-labelledby="atm-heading">
-        <div class="section-intro">
-            <span class="section-tag mono-text">04 — Ambiente</span>
-        </div>
-
-        <div class="atm-layout">
-            <div class="atm-giant" aria-hidden="true">PAN<br>OR<br>AMA</div>
-            <div class="atm-content">
-                <h2 id="atm-heading" class="atm-title">
-                    Ein Ort zwischen<br><em>Hamburg</em> und<br>den griechischen<br><em>Inseln</em>
+        <div class="vibe-layout">
+            <div class="vibe-left">
+                <span class="section-tag mono">02 — Vibe Coding</span>
+                <h2 id="vibe-heading" class="vibe-title">
+                    <span class="vt-line">Код</span>
+                    <span class="vt-line gradient-text">интуитивно</span>
+                    <span class="vt-line">с&nbsp;помощью AI</span>
                 </h2>
-                <p class="atm-text">
-                    Unser einzigartiger Rundbau mit großer Panoramafensterfront liegt direkt am Grachtenplatz in Neuallermöhe. Das Wasser der Kanäle, das Licht am Abend, die Wärme des Holzkohlegrills — hier entsteht eine Atmosphäre, die vergessen lässt, wo Hamburg endet und die Ägäis beginnt.
+                <p class="vibe-desc">
+                    Вайбкодинг — это новый способ разработки, где ИИ пишет код, а вы задаёте направление. Не нужно знать синтаксис — достаточно идеи и намерения.
                 </p>
+                <div class="vibe-feats">
+                    <div class="vibe-feat nm-card">
+                        <span class="feat-icon">⚡</span>
+                        <div class="feat-text">
+                            <h4>AI-First Development</h4>
+                            <p>ИИ пишет, вы направляете</p>
+                        </div>
+                    </div>
+                    <div class="vibe-feat nm-card">
+                        <span class="feat-icon">◈</span>
+                        <div class="feat-text">
+                            <h4>Zero Boilerplate</h4>
+                            <p>Только смысл, без шаблонов</p>
+                        </div>
+                    </div>
+                    <div class="vibe-feat nm-card">
+                        <span class="feat-icon">∞</span>
+                        <div class="feat-text">
+                            <h4>Iterate Fast</h4>
+                            <p>Идея → рабочий код за секунды</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="atm-features">
-                    <div class="atm-feat"><span class="feat-bullet">◆</span><span>Rundbau mit Panoramablick</span></div>
-                    <div class="atm-feat"><span class="feat-bullet">◆</span><span>Direkter Blick auf das Wasser</span></div>
-                    <div class="atm-feat"><span class="feat-bullet">◆</span><span>Modernes griechisches Ambiente</span></div>
-                    <div class="atm-feat"><span class="feat-bullet">◆</span><span>Eventlocation bis 80 Personen</span></div>
+            <div class="vibe-right">
+                <div class="code-panel nm-card" role="region" aria-label="Демонстрация вайбкодинга">
+                    <div class="code-bar">
+                        <div class="code-dots" aria-hidden="true">
+                            <span class="cd cd-r"></span>
+                            <span class="cd cd-y"></span>
+                            <span class="cd cd-g"></span>
+                        </div>
+                        <span class="code-title mono">vibe.ai — live</span>
+                        <span class="code-badge mono">● RUN</span>
+                    </div>
+                    <div class="code-body">
+                        <pre aria-label="Пример вайбкодинга"><code id="typing-code"></code><span class="code-cursor" aria-hidden="true"></span></pre>
+                    </div>
+                    <div class="code-footer mono">
+                        <span class="cf-ok">✓ Generated in 2.4s</span>
+                        <span class="cf-lines">847 lines</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════ EVENTS ═══════════════════ -->
-    <section id="events" aria-labelledby="events-heading">
-        <div class="section-intro">
-            <span class="section-tag mono-text">05 — Events</span>
+    <!-- ═══════ TECH STACK ═══════ -->
+    <section id="stack" aria-labelledby="stack-heading">
+        <div class="section-head centered">
+            <span class="section-tag mono">03 — Tech Stack</span>
+            <h2 id="stack-heading" class="section-title">
+                Технологии<br>
+                <em class="gradient-text">&amp; Инструменты</em>
+            </h2>
         </div>
 
-        <div class="events-layout">
-            <div class="events-left">
-                <h2 id="events-heading" class="events-title">
-                    <span class="et-line">EVENTS</span>
-                    <span class="et-line italic terra">&amp;</span>
-                    <span class="et-line">Veranstaltungen</span>
-                </h2>
+        <div class="stack-grid">
+            <div class="stack-blob nm-card sb-1" aria-label="Claude API от Anthropic">
+                <div class="sb-icon">🤖</div>
+                <div class="sb-name">Claude API</div>
+                <div class="sb-sub mono">Anthropic</div>
             </div>
-            <div class="events-right">
-                <p>Das PANORAMA ist mehr als ein Restaurant — es ist ein Ort für unvergessliche Momente. Ob Firmenevents, Geburtstage, Hochzeiten oder private Feiern: Unser Team gestaltet Ihren Abend zu einem Erlebnis, das bleibt.</p>
-                <div class="events-types">
-                    <span class="event-tag">Firmenevents</span>
-                    <span class="event-tag">Geburtstage</span>
-                    <span class="event-tag">Hochzeiten</span>
-                    <span class="event-tag">Private Feiern</span>
-                    <span class="event-tag">Betriebsfeiern</span>
-                    <span class="event-tag">Jubiläen</span>
-                </div>
-                <a href="mailto:info@panorama-bergedorf.de" class="btn-fill">Event anfragen</a>
+            <div class="stack-blob nm-card sb-2" aria-label="LangChain для оркестрации">
+                <div class="sb-icon">⚡</div>
+                <div class="sb-name">LangChain</div>
+                <div class="sb-sub mono">Orchestration</div>
             </div>
-        </div>
-
-        <div class="events-marquee" aria-hidden="true">
-            <div class="em-track">
-                <span>FIRMENEVENTS</span><span class="em-sep">·</span>
-                <span>GEBURTSTAGE</span><span class="em-sep">·</span>
-                <span>HOCHZEITEN</span><span class="em-sep">·</span>
-                <span>PRIVATE FEIERN</span><span class="em-sep">·</span>
-                <span>JUBILÄEN</span><span class="em-sep">·</span>
-                <span>BETRIEBSFEIERN</span><span class="em-sep">·</span>
-                <span>FIRMENEVENTS</span><span class="em-sep">·</span>
-                <span>GEBURTSTAGE</span><span class="em-sep">·</span>
-                <span>HOCHZEITEN</span><span class="em-sep">·</span>
-                <span>PRIVATE FEIERN</span><span class="em-sep">·</span>
-                <span>JUBILÄEN</span><span class="em-sep">·</span>
-                <span>BETRIEBSFEIERN</span><span class="em-sep">·</span>
+            <div class="stack-blob nm-card sb-3" aria-label="Vector Database">
+                <div class="sb-icon">◎</div>
+                <div class="sb-name">Vector DB</div>
+                <div class="sb-sub mono">Pinecone · Weaviate</div>
+            </div>
+            <div class="stack-blob nm-card sb-4" aria-label="OpenAI Whisper для речи">
+                <div class="sb-icon">∿</div>
+                <div class="sb-name">Whisper</div>
+                <div class="sb-sub mono">Speech AI</div>
+            </div>
+            <div class="stack-blob nm-card sb-5" aria-label="React для фронтенда">
+                <div class="sb-icon">▣</div>
+                <div class="sb-name">React</div>
+                <div class="sb-sub mono">Frontend</div>
+            </div>
+            <div class="stack-blob nm-card sb-6" aria-label="MCP Protocol от Anthropic">
+                <div class="sb-icon">◈</div>
+                <div class="sb-name">MCP</div>
+                <div class="sb-sub mono">Anthropic Protocol</div>
+            </div>
+            <div class="stack-blob nm-card sb-7" aria-label="Python для бэкенда">
+                <div class="sb-icon">⬡</div>
+                <div class="sb-name">Python</div>
+                <div class="sb-sub mono">Backend</div>
+            </div>
+            <div class="stack-blob nm-card sb-8" aria-label="Next.js fullstack">
+                <div class="sb-icon">↑</div>
+                <div class="sb-name">Next.js</div>
+                <div class="sb-sub mono">Full Stack</div>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════ CONTACT ═══════════════════ -->
-    <section id="contact" aria-labelledby="contact-heading">
-        <div class="section-intro">
-            <span class="section-tag mono-text">06 — Kontakt</span>
-        </div>
-
-        <h2 id="contact-heading" class="contact-title">
-            <span>FINDEN</span>
-            <span class="italic gold">SIE UNS</span>
-        </h2>
-
-        <div class="contact-grid">
-            <div class="contact-info-col">
-
-                <div class="c-block">
-                    <span class="c-label mono-text">ADRESSE</span>
-                    <address>
-                        Grachtenplatz 11<br>
-                        21035 Hamburg<br>
-                        Bergedorf / Neuallermöhe
-                    </address>
-                    <span class="c-note mono-text">S-Bahn: Nettelnburg</span>
-                </div>
-
-                <div class="c-block">
-                    <span class="c-label mono-text">ÖFFNUNGSZEITEN</span>
-                    <table class="hours-table" aria-label="Öffnungszeiten">
-                        <tbody>
-                            <tr><td>Mo — Do</td><td>12:00 – 22:30</td></tr>
-                            <tr><td>Fr — Sa</td><td>12:00 – 23:30</td></tr>
-                            <tr><td>Sonntag</td><td>12:00 – 22:00</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="c-block">
-                    <span class="c-label mono-text">RESERVIERUNG</span>
-                    <a href="mailto:info@panorama-bergedorf.de" class="c-email">info@panorama-bergedorf.de</a>
-                    <a href="https://panorama-bergedorf.de" target="_blank" rel="noopener" class="c-website mono-text">panorama-bergedorf.de ↗</a>
-                </div>
-
+    <!-- ═══════ STATS ═══════ -->
+    <section id="stats" aria-label="Статистика">
+        <div class="stats-inner nm-card">
+            <div class="stat-item">
+                <div class="stat-num gradient-text" data-target="8">0</div>
+                <div class="stat-label mono">Open Source<br>Projects</div>
             </div>
-
-            <div class="contact-map-col">
-                <div class="map-frame">
-                    <iframe
-                        title="PANORAMA Restaurant Standort"
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=10.1214%2C53.4708%2C10.1414%2C53.4808&amp;layer=mapnik&amp;marker=53.4758%2C10.1314"
-                        loading="lazy"
-                        aria-label="Karte: PANORAMA Restaurant, Grachtenplatz 11, Hamburg">
-                    </iframe>
-                </div>
-                <a href="https://www.openstreetmap.org/?mlat=53.4758&amp;mlon=10.1314#map=16/53.4758/10.1314" target="_blank" rel="noopener" class="map-link mono-text">Auf Karte öffnen ↗</a>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat-item">
+                <div class="stat-num gradient-text" data-target="10">0</div>
+                <div class="stat-label mono">Thousand+<br>GitHub Stars</div>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat-item">
+                <div class="stat-num gradient-text" data-target="5">0</div>
+                <div class="stat-label mono">AI Models<br>Integrated</div>
             </div>
         </div>
+    </section>
 
-        <div class="big-cta">
-            <a href="mailto:info@panorama-bergedorf.de" class="big-cta-link">
-                <span>TISCH RESERVIEREN</span>
-                <span class="cta-arr">→</span>
+    <!-- ═══════ CONNECT ═══════ -->
+    <section id="connect" aria-labelledby="connect-heading">
+        <div class="connect-blob" aria-hidden="true"></div>
+
+        <div class="connect-content">
+            <span class="section-tag mono">04 — Connect</span>
+
+            <h2 id="connect-heading" class="connect-title">
+                <span class="ct-line">Готов к</span>
+                <span class="ct-line gradient-text">сотрудничеству</span>
+            </h2>
+
+            <p class="connect-sub">
+                Открыт для интересных проектов, коллабораций и новых идей в области AI-разработки
+            </p>
+
+            <div class="connect-cards">
+                <a href="https://github.com" target="_blank" rel="noopener" class="cc-item nm-card magnetic">
+                    <div class="cc-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                    </div>
+                    <div class="cc-text">
+                        <span class="cc-name">GitHub</span>
+                        <span class="cc-sub mono">Все репозитории</span>
+                    </div>
+                    <span class="cc-arr">↗</span>
+                </a>
+                <a href="mailto:hello@aiprojects.dev" class="cc-item nm-card magnetic">
+                    <div class="cc-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                        </svg>
+                    </div>
+                    <div class="cc-text">
+                        <span class="cc-name">Email</span>
+                        <span class="cc-sub mono">hello@aiprojects.dev</span>
+                    </div>
+                    <span class="cc-arr">↗</span>
+                </a>
+                <a href="https://t.me" target="_blank" rel="noopener" class="cc-item nm-card magnetic">
+                    <div class="cc-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                    </div>
+                    <div class="cc-text">
+                        <span class="cc-name">Telegram</span>
+                        <span class="cc-sub mono">Для быстрой связи</span>
+                    </div>
+                    <span class="cc-arr">↗</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Big CTA -->
+        <div class="big-cta" aria-hidden="false">
+            <a href="https://github.com" target="_blank" rel="noopener" class="bca-link">
+                <span class="bca-text">Star on GitHub</span>
+                <span class="bca-arr">→</span>
             </a>
         </div>
     </section>
 
-    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <!-- ═══════ FOOTER ═══════ -->
     <footer>
         <div class="footer-inner">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="footer-logo">PANORAMA</div>
-                    <p class="footer-tagline">Griechisches Restaurant · Hamburg Bergedorf<br>Original griechisch Essen seit 1982</p>
-                </div>
-                <div class="footer-links-col">
-                    <a href="#about">Geschichte</a>
-                    <a href="#menu">Speisekarte</a>
-                    <a href="#events">Events</a>
-                    <a href="#contact">Kontakt</a>
-                </div>
-                <div class="footer-contact-col">
-                    <span class="mono-text">Grachtenplatz 11</span>
-                    <span class="mono-text">21035 Hamburg</span>
-                    <a href="mailto:info@panorama-bergedorf.de" class="mono-text">info@panorama-bergedorf.de</a>
-                    <a href="https://panorama-bergedorf.de" target="_blank" rel="noopener" class="mono-text">panorama-bergedorf.de</a>
-                </div>
+            <div class="footer-l">
+                <span class="footer-logo">◈ AI.Portfolio</span>
+                <p class="footer-tag mono">Built with Claude × Vibe Coding</p>
             </div>
-            <div class="footer-bottom">
-                <span class="mono-text">© 2024 PANORAMA Restaurant · Alle Rechte vorbehalten</span>
-                <span class="mono-text footer-credit">Design: Emil Kowalski</span>
+            <div class="footer-r mono">
+                <span>2025</span>
+                <span>Open Source</span>
+                <span>MIT License</span>
             </div>
         </div>
-        <div class="footer-bg-word" aria-hidden="true">PANORAMA</div>
+        <div class="footer-ghost" aria-hidden="true">AI</div>
     </footer>
 
-    <!-- GSAP CDN -->
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
