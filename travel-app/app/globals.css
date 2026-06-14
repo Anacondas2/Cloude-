@@ -15,32 +15,25 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background: #04110b;
+  background: #000000;
   color: #eef3ed;
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
 }
 
-/* ── Spatial aurora background ── */
+/* ── Dark background (replaces aurora) ── */
 .aurora-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(60% 50% at 15% 0%, rgba(31, 208, 122, 0.18), transparent 60%),
-    radial-gradient(55% 45% at 90% 10%, rgba(52, 224, 140, 0.14), transparent 60%),
-    radial-gradient(70% 60% at 50% 110%, rgba(20, 184, 166, 0.16), transparent 60%),
-    linear-gradient(180deg, #06180f 0%, #04110b 55%, #030d08 100%);
+  background: #000000;
 }
 .aurora-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 26px 26px;
-  mask-image: radial-gradient(70% 60% at 50% 35%, #000 30%, transparent 75%);
-  opacity: 0.5;
+  background: radial-gradient(60% 50% at 50% 0%, rgba(230,0,18,0.04), transparent 70%);
 }
 
 /* ── Glass surfaces ── */
