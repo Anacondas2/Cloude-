@@ -14,8 +14,10 @@ interface Props {
 function ParticleBg() {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    const c = ref.current; if (!c) return;
-    const ctx = c.getContext("2d")!;
+    const cRaw = ref.current;
+    if (!cRaw) return;
+    const c: HTMLCanvasElement = cRaw;
+    const ctx = c.getContext("2d") as CanvasRenderingContext2D;
     let alive = true;
     const resize = () => { c.width = c.offsetWidth; c.height = c.offsetHeight; };
     resize();
