@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 interface Props {
@@ -8,109 +9,187 @@ interface Props {
   draftCount?: number;
 }
 
-const FLOATERS = [
-  { e: "🗼", x: "8%", y: "16%", d: 0, s: 1 },
-  { e: "🗽", x: "78%", y: "12%", d: 0.4, s: 1.1 },
-  { e: "🗻", x: "82%", y: "62%", d: 0.8, s: 0.95 },
-  { e: "🏛️", x: "12%", y: "66%", d: 0.6, s: 0.9 },
-  { e: "🌋", x: "46%", y: "8%", d: 1.0, s: 0.8 },
-  { e: "🏝️", x: "30%", y: "78%", d: 0.2, s: 0.85 },
-];
+// ─── Minimal Verlet particles for bg ─────────────────────────────────────────
+
+function ParticleBg() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const c = ref.current; if (!c) return;
+    const ctx = c.getContext("2d")!;
+    let alive = true;
+    const resize = () => { c.width = c.offsetWidth; c.height = c.offsetHeight; };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const N = 38;
+    const pts = Array.from({ length: N }, () => {
+      const x = Math.random() * c.width, y = Math.random() * c.height;
+      return { x, y, ox: x + (Math.random()-.5)*2, oy: y + (Math.random()-.5)*2 };
+    });
+
+    function frame() {
+      if (!alive) return;
+      requestAnimationFrame(frame);
+      ctx.fillStyle = "rgba(0,0,0,0.18)";
+      ctx.fillRect(0, 0, c.width, c.height);
+
+      for (const p of pts) {
+        const vx = (p.x - p.ox) * 0.995;
+        const vy = (p.y - p.oy) * 0.995;
+        p.ox = p.x; p.oy = p.y;
+        p.x += vx; p.y += vy + 0.04;
+        if (p.x < 0) { p.x = 0; p.ox = p.x + Math.abs(p.ox-p.x)*.8; }
+        if (p.x > c.width) { p.x = c.width; p.ox = p.x - Math.abs(p.ox-p.x)*.8; }
+        if (p.y < 0) { p.y = 0; p.oy = p.y + Math.abs(p.oy-p.y)*.8; }
+        if (p.y > c.height) { p.y = c.height; p.oy = p.y - Math.abs(p.oy-p.y)*.8; }
+      }
+
+      for (let i = 0; i < N; i++) {
+        for (let j = i+1; j < N; j++) {
+          const dx = pts[j].x-pts[i].x, dy = pts[j].y-pts[i].y;
+          const d = Math.sqrt(dx*dx+dy*dy);
+          if (d < 140) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(230,0,18,${(1-d/140)*.18})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+        ctx.beginPath();
+        ctx.arc(pts[i].x, pts[i].y, 1.5, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(255,255,255,0.25)";
+        ctx.fill();
+      }
+    }
+    frame();
+    return () => { alive = false; window.removeEventListener("resize", resize); };
+  }, []);
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />;
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export function LandingHero({ onStart, draftCount = 0 }: Props) {
   const hasDraft = draftCount > 0;
+
   return (
-    <div className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 text-center">
-      {/* Floating spatial landmarks */}
-      {FLOATERS.map((f, i) => (
-        <motion.span
-          key={i}
-          className="pointer-events-none absolute text-4xl opacity-30 blur-[0.4px] sm:text-5xl"
-          style={{ left: f.x, top: f.y }}
-          initial={{ opacity: 0, scale: 0.4 }}
-          animate={{
-            opacity: 0.3,
-            scale: f.s,
-            y: [0, -14, 0],
-          }}
-          transition={{
-            opacity: { delay: f.d, duration: 0.8 },
-            scale: { delay: f.d, duration: 0.8 },
-            y: { duration: 6 + i, repeat: Infinity, ease: "easeInOut" },
-          }}
+    <div className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-black">
+      <ParticleBg />
+
+      {/* Film grain */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.04]"
+           style={{ mixBlendMode: "overlay" }} xmlns="http://www.w3.org/2000/svg">
+        <filter id="lg"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+        <rect width="100%" height="100%" filter="url(#lg)"/>
+      </svg>
+
+      {/* Top bar */}
+      <div className="relative z-10 flex items-center justify-between px-6 pt-8">
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .2 }}
+          className="text-[11px] font-light tracking-[.45em] text-white/25 uppercase"
         >
-          {f.e}
-        </motion.span>
-      ))}
+          Trewel
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .3 }}
+          className="flex items-center gap-1.5"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#E60012]" />
+          <span className="text-[10px] text-white/25 tracking-widest uppercase">Travel Challenge</span>
+        </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 flex flex-col items-center"
-      >
-        <span className="glass-soft mb-6 rounded-full px-4 py-1.5 text-[12px] font-medium tracking-wide text-emerald2-300">
-          🌍 Публичный travel-челлендж
-        </span>
+      {/* Main content */}
+      <div className="relative z-10 flex flex-1 flex-col justify-center px-6 pb-10">
 
-        <h1 className="font-display text-[40px] font-extrabold leading-[1.05] text-cream sm:text-5xl">
-          В каких странах
-          <br />
-          <span className="grad-text text-glow">ты был?</span>
-        </h1>
+        {/* Ghost number */}
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .15 }}
+          className="absolute right-4 top-1/4 text-[clamp(80px,22vw,160px)] font-black leading-none text-[#E60012] select-none pointer-events-none"
+          style={{ opacity: 0.055 }}
+        >
+          195
+        </motion.p>
 
-        <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-cream/65">
-          Выбери страны, которые ты уже посетил. После отправки твой список
-          появится в общей публичной ленте.
-        </p>
+        {/* Divider line */}
+        <motion.div
+          initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+          transition={{ delay: .4, duration: .7, ease: [.22,1,.36,1] }}
+          className="mb-6 h-px w-16 bg-[#E60012] origin-left"
+        />
 
-        <div className="mt-9 flex w-full max-w-xs flex-col gap-3">
-          <motion.button
-            onClick={onStart}
-            whileTap={{ scale: 0.95 }}
-            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald2-400 to-lime2-400 px-8 py-4 text-base font-bold text-forest-950 shadow-[0_16px_40px_-10px_rgba(52,224,140,0.7)]"
-          >
-            {hasDraft ? (
-              <>
-                ↩ Продолжить выбор
-                <span className="rounded-full bg-forest-950/20 px-2 py-0.5 text-[12px] font-bold">
-                  {draftCount}
-                </span>
-              </>
-            ) : (
-              <>
-                Начать выбор
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.4, repeat: Infinity }}
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: .45, duration: .7, ease: [.22,1,.36,1] }}
+          className="text-[clamp(36px,10vw,64px)] font-black leading-[1.02] tracking-tight text-white"
+        >
+          В каких<br />странах<br />
+          <span style={{ color: "#E60012" }}>ты&nbsp;был?</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: .65, duration: .6 }}
+          className="mt-4 max-w-xs text-[14px] leading-relaxed text-white/40 font-light"
+        >
+          Отметь страны которые посетил — появится в общей ленте группы
+        </motion.p>
+
+        {/* CTA list */}
+        <div className="mt-10 flex flex-col gap-0">
+          {[
+            { label: hasDraft ? `↩ Продолжить · ${draftCount} стран` : "Начать выбор →", action: "start", primary: true },
+            { label: "Результаты группы →", action: "results", primary: false },
+            { label: "Игры →", action: "games", primary: false },
+          ].map((item, i) => (
+            <motion.div
+              key={item.action}
+              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: .7 + i*.1, duration: .5, ease: [.22,1,.36,1] }}
+            >
+              {item.action === "start" ? (
+                <button
+                  onClick={onStart}
+                  className={`group w-full text-left py-4 border-b flex items-center justify-between transition-colors duration-200 ${
+                    item.primary
+                      ? "border-white/20 text-white hover:text-[#E60012]"
+                      : "border-white/8 text-white/40 hover:text-white/70"
+                  }`}
                 >
-                  →
-                </motion.span>
-              </>
-            )}
-          </motion.button>
-
-          <Link
-            href="/results"
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald2-400/20 px-8 py-3.5 text-[14px] font-semibold text-cream/70 transition hover:border-emerald2-400/40 hover:text-cream/90 active:scale-95"
-          >
-            👥 Смотреть результаты группы
-          </Link>
-
-          <Link
-            href="/games"
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 px-8 py-3 text-[14px] font-semibold text-cream/55 transition hover:border-white/20 hover:text-cream/80 active:scale-95"
-          >
-            🎮 Игры · Угадай столицу и флаг
-          </Link>
+                  <span className={`${item.primary ? "text-[16px] font-semibold" : "text-[14px]"} tracking-wide`}>
+                    {item.label}
+                  </span>
+                  <span className="text-[#E60012] opacity-0 group-hover:opacity-100 transition-opacity">◆</span>
+                </button>
+              ) : item.action === "results" ? (
+                <Link href="/results"
+                  className="group w-full py-4 border-b border-white/8 flex items-center justify-between text-white/40 hover:text-white/70 transition-colors duration-200">
+                  <span className="text-[14px] tracking-wide">{item.label}</span>
+                  <span className="text-[#E60012] opacity-0 group-hover:opacity-100 transition-opacity">◆</span>
+                </Link>
+              ) : (
+                <Link href="/games"
+                  className="group w-full py-4 border-b border-white/8 flex items-center justify-between text-white/40 hover:text-white/70 transition-colors duration-200">
+                  <span className="text-[14px] tracking-wide">{item.label}</span>
+                  <span className="text-[#E60012] opacity-0 group-hover:opacity-100 transition-opacity">◆</span>
+                </Link>
+              )}
+            </motion.div>
+          ))}
         </div>
 
-        <p className="mt-8 text-xs text-cream/35">
-          {hasDraft
-            ? "Черновик сохранён · Без регистрации · 195+ стран"
-            : "Без регистрации · Видно всей группе · 195+ стран"}
-        </p>
-      </motion.div>
+        {/* Footer */}
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
+          className="mt-8 text-[10px] text-white/18 tracking-[.3em] uppercase"
+        >
+          195 стран · без регистрации
+        </motion.p>
+      </div>
     </div>
   );
 }
