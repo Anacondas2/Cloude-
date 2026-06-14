@@ -457,7 +457,7 @@ button   { background: none; border: none; cursor: none; font: inherit; color: i
 @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green); } 50% { opacity: .6; box-shadow: 0 0 20px var(--green); } }
 .fc-status { font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; color: var(--green); }
 
-.hero-content { position: relative; z-index: 1; max-width: 860px; }
+.hero-content { position: relative; z-index: 1; max-width: none; }
 .hero-badge {
     display: inline-flex; align-items: center; gap: .7rem;
     padding: .5rem 1rem;
@@ -478,7 +478,7 @@ button   { background: none; border: none; cursor: none; font: inherit; color: i
     margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
     display: flex; flex-direction: column;
 }
-.ht-row { display: flex; gap: .22em; overflow: hidden; }
+.ht-row { display: flex; gap: .22em; overflow: hidden; padding: .12em .2em; margin: -.12em -.2em; }
 .ht-w { display: inline-block; transform: translateY(110%); opacity: 0; will-change: transform, opacity; }
 .gradient-row .ht-w { font-style: italic; }
 
@@ -486,6 +486,7 @@ button   { background: none; border: none; cursor: none; font: inherit; color: i
     font-size: clamp(.9rem, 1.5vw, 1.1rem);
     line-height: 1.75;
     color: var(--text-dim);
+    max-width: 600px;
     margin-bottom: clamp(2rem, 4vw, 3rem);
     opacity: 0; transform: translateY(18px);
     will-change: transform, opacity;
@@ -866,13 +867,14 @@ section { position: relative; padding: clamp(5rem, 10vw, 10rem) var(--pad-x); }
 .connect-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; }
 .connect-title {
     font-family: var(--f-display);
-    font-size: clamp(3.5rem, 12vw, 14rem);
-    font-weight: 800; line-height: .9; letter-spacing: -.04em;
+    font-size: clamp(3rem, 8.5vw, 9.5rem);
+    font-weight: 800; line-height: .92; letter-spacing: -.04em;
     display: flex; flex-direction: column;
     margin: 1.2rem 0 1.5rem;
+    max-width: 100%;
 }
-.ct-line { display: block; transform: translateY(80%); opacity: 0; will-change: transform, opacity; }
-.ct-line:nth-child(2) { padding-left: clamp(1rem, 4vw, 6rem); font-style: italic; }
+.ct-line { display: block; transform: translateY(80%); opacity: 0; will-change: transform, opacity; padding: .05em .12em; margin: -.05em -.12em; }
+.ct-line:nth-child(2) { padding-left: clamp(.5rem, 2.5vw, 3rem); font-style: italic; }
 .connect-sub {
     font-size: clamp(.9rem, 1.4vw, 1.05rem);
     line-height: 1.75; color: var(--text-dim);
