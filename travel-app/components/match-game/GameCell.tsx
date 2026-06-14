@@ -1,32 +1,61 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useRef } from "react";
 import { motion } from "framer-motion";
 
 interface Props {
-  id: string;        // stable cell id — used as layoutId
-  flag: string;      // emoji
+  id: string;
+  flag: string;
   isSelected: boolean;
   isMatched: boolean;
   isNew: boolean;
   cellSize: number;
   onClick: () => void;
+  onSwipe: (dr: number, dc: number) => void;
 }
 
 export const GameCell = memo(function GameCell({
-  id, flag, isSelected, isMatched, isNew, cellSize, onClick,
+  id, flag, isSelected, isMatched, isNew, cellSize, onClick, onSwipe,
 }: Props) {
   const fontSize = Math.round(cellSize * 0.58);
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+
+  function handlePointerDown(e: React.PointerEvent) {
+    pointerStart.current = { x: e.clientX, y: e.clientY };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }
+
+  function handlePointerUp(e: React.PointerEvent) {
+    const start = pointerStart.current;
+    pointerStart.current = null;
+    if (!start) return;
+
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    const adx = Math.abs(dx);
+    const ady = Math.abs(dy);
+    const threshold = Math.max(cellSize * 0.28, 10);
+
+    if (adx < threshold && ady < threshold) {
+      onClick();
+    } else if (adx >= ady) {
+      onSwipe(0, dx > 0 ? 1 : -1);
+    } else {
+      onSwipe(dy > 0 ? 1 : -1, 0);
+    }
+  }
+
+  function handlePointerCancel() {
+    pointerStart.current = null;
+  }
 
   return (
     <motion.button
-      // layoutId makes Framer Motion track this element across renders.
-      // When the board array is reordered (swap or gravity), Framer Motion
-      // automatically animates the element from its old DOM position to its
-      // new DOM position using FLIP — this is the swap/fall animation.
       layoutId={id}
       layout="position"
-      onClick={onClick}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
       initial={isNew ? { scale: 0.3, opacity: 0 } : false}
       animate={{
         scale: isMatched ? 0.4 : 1,
